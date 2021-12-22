@@ -1,15 +1,25 @@
-# _Qr_ covid checker & watermark photo with dashboard
+# QrCovid
+## Qr covid _checker & watermark_ photo with dashboard
+
 
 ![](coronavirus.gif)
 [![Run on Repl.it](https://repl.it/badge/github/sukuzhanay/chat_using_sockets)](https://repl.it/github/sukuzhanay/chat_using_sockets)
 
-# Corona Virus Chat
-Con el objeto de no hablarnos a la cara usaremos la comunicación electrónica mediante este chat para evitar el coronavirus
+### Proyecto final de la asignatura de Programación Concurrente y Distribuida 
 
-```shell
-cliente.py .- Implementa las peticiones del cliente al servidor usando sockets e hilos
+Repositorio que alberga el proyecto de programación concurrente y distribuida que contará con las funcionalidades siguientes:
 
-servidor.py.- Recibe las peticiones de múltiples clientes y las guarda en una array; para atender a los clientes hace uso de hilos
+1. Comprueba que el Qr de un pasaporte Covid sea válido
+2. Genera un nuevo Qr con la foto del titular, evitando tener que sacar DNI ( matricula de honor )
+3. Dashboard interactivo del estado del vacunación de la Universidad Europea
 
-```
+### Autores
+**Christian Vladimir Sucuzhanay Arevalo** ( Profesor )
+**Carlos Moreno** ( jefe grupo 1)
+**Maria** ( jefe grupo 2)
+**Jolie** ( jefe grupo 3)
+
+
+      
+
 ![Logo of the project](https://github.com/sukuzhanay/Karatsuba/blob/master/UEM-Logo.png)
