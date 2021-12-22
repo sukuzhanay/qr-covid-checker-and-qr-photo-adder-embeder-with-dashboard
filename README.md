@@ -1,5 +1,4 @@
-# qr-covid-checker-and-qr-photo-adder-embeder-with-dashboard
-qr covid checker and qr watermark photo with dashboard
+# _Qr_ covid checker & watermark photo with dashboard
 
 ![](coronavirus.gif)
 [![Run on Repl.it](https://repl.it/badge/github/sukuzhanay/chat_using_sockets)](https://repl.it/github/sukuzhanay/chat_using_sockets)
