@@ -1,11 +1,13 @@
 # _**QrCovid**_
 ## Qr covid _checker & watermark_ photo with dashboard
 _**QrCovid**_ comprueba si el qr del pasaporte covid es autentico, ademas crea un qr con la foto del titular evitando sacar el DNI y permite conocer, entre otros: el estado de vacunación, tiempo medio desde la ultima vacunación, vacunas mas usadas.
+
 ![Design](https://github.com/sukuzhanay/qr-covid-checker-and-qr-photo-adder-embeder-with-dashboard/blob/main/qrcovid.drawio.png)
 
 [![Run on Repl.it](https://repl.it/badge/github/sukuzhanay/chat_using_sockets)](https://repl.it/github/sukuzhanay/chat_using_sockets)
 
-### Proyecto final de la asignatura de Programación Concurrente y Distribuida 
+### Proyecto final de la asignatura de Programación Concurrente y Distribuida .  
+Prof.: **Christian Vladimir Sucuzhanay Arevalo** 
 
 Repositorio que alberga el proyecto de programación concurrente y distribuida, contará con las funcionalidades siguientes:
 ![Logo of the project](https://github.com/sukuzhanay/qr-covid-checker-and-qr-photo-adder-embeder-with-dashboard/blob/main/uem%20logo.jpeg)
