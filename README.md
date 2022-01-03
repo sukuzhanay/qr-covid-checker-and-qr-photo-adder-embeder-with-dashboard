@@ -32,7 +32,7 @@ Repositorio que alberga el proyecto de programación concurrente y distribuida, 
 3. Dashboard Plotly 
 4. JavaScript
 5. Github
-6. ![](www.google.es "Figma")
+6. ![Figma](www.google.es "Figma")
 
 **Backend**
 
