@@ -35,7 +35,7 @@ Punto 2.
 
   - Al descargar los directorios, crearemos un archivo en el directorio Android con nombre local.properties donde introduciremos la siguiente línea (incluyendo las doble \\),
     sdk.dir=C:\\Users\\camilo\\AppData\\Local\\Android\\Sdk
-    El Sdk del final puede variar. Puede ser sdk. En nuestro caso, se puede ver que es con la primera mayúscula.
+    El Sdk del final puede variar. Puede ser sdk en minúscula. En nuestro caso, se puede ver que es con la primera mayúscula.
 
   - Nos dirigimos a la carpeta "editar las Variables del entorno del sistema" de forma gráfica, y hacemos clic en la parte inferior donde pone
     Variables del entorno. En el cuadrado de arriba donde hace referencia a tu usuario, hacemos clic en Path, y seleccionamos la opción de editar.
