@@ -10,8 +10,6 @@ _**QrCovid**_ comprueba si el qr del pasaporte covid es autentico, ademas crea u
 Prof.: **Christian Vladimir Sucuzhanay Arevalo** 
 
 Repositorio que alberga el proyecto de programación concurrente y distribuida, contará con las funcionalidades siguientes:
-![Logo of the project](https://github.com/sukuzhanay/qr-covid-checker-and-qr-photo-adder-embeder-with-dashboard/blob/main/uem%20logo.jpeg)
-
 
 1. **Comprueba** que el **Qr** de un pasaporte Covid sea válido
 2. **Genera** un nuevo **Qr** con la **foto** del titular, evitando tener que sacar **DNI** ( matricula de honor )
