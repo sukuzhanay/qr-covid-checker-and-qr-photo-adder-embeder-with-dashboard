@@ -1,6 +1,5 @@
 import qrcode
 from PIL import Image
-import tkinter
 cadena = input("Introduzca el texto para el codigo qr: ")
 imagen = qrcode.make(cadena)
 
