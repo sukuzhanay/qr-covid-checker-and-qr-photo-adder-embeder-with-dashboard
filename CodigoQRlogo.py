@@ -23,8 +23,6 @@ def make_qrcode(data, save_path='./qrcode.png', border=5, image_size=(300, 300),
         os.makedirs(os.path.dirname(save_path))
     qrcode_image.save(save_path)
 
-def leerQr(imagen, save_path= './qrcode.png'):
-    detector= cv2.imread(imagen)
 
 
 
