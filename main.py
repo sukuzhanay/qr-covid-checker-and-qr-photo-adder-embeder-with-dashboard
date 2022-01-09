@@ -1,6 +1,5 @@
 import pyrebase as pb
 import streamlit as st
-import pandas as pd
 import plotly.graph_objects as go
 
 # ¡¡¡API DE PRUEBA - base de datos falsa!!!
@@ -24,38 +23,77 @@ db = firebase.database()
 
 all_users = db.child("users").get()
 
-spikevax = 0
-comirnaty = 0
-covishield = 0
-janssen = 0
 
-print(all_users.val)
+# =========== Contador de tipos de vacuna =================
 
-# Contador de tipo de vacuna
-for users in all_users.each():
-    if "Spikevax" in str(users.val()):
-        spikevax += 1
-    elif "Comirnaty" in str(users.val()):
-        comirnaty += 1
-    elif "Covishield" in str(users.val()):
-        covishield += 1
-    else:
-        janssen += 1
+def porcentaje_tipo_vacuna():
+    spikevax = 0
+    comirnaty = 0
+    covishield = 0
+    janssen = 0
 
-print("Spikevax " + str(spikevax) + "Comirnaty " + str(comirnaty) + "Covishield " + str(covishield) + "Janssen " + str(janssen))
+    for users in all_users.each():
+        if "Spikevax" in str(users.val()):
+            spikevax += 1
+        elif "Comirnaty" in str(users.val()):
+            comirnaty += 1
+        elif "Covishield" in str(users.val()):
+            covishield += 1
+        else:
+            janssen += 1
 
-vacunas = ["Spikevax", "Comirnaty", "Covishield", "Janssen"]
-valores = [spikevax, comirnaty, covishield, janssen]
+    print("Spikevax " + str(spikevax) + "Comirnaty " + str(comirnaty) + "Covishield " + str(
+        covishield) + "Janssen " + str(
+        janssen))
 
-# Se crea la grafica
-fig = go.Figure(
-    go.Pie(
-        labels=vacunas,
-        values=valores,
-        hoverinfo="label+percent",
-        textinfo="value"
-    ))
+    vacunas = ["Spikevax", "Comirnaty", "Covishield", "Janssen"]
+    valores = [spikevax, comirnaty, covishield, janssen]
 
-# Grafica se pasa a Streamlit
-st.header("Vacunas")
-st.plotly_chart(fig)
+    # ====== PIE CHART - TIPO VACUNAS =========
+    fig = go.Figure(
+        go.Pie(
+            labels=vacunas,
+            values=valores,
+            hoverinfo="label+percent",
+            textinfo="value"
+        ))
+    fig.update_traces(hoverinfo='label+value', textinfo='percent', textfont_size=20)
+
+    # Grafica se pasa a Streamlit
+    st.header("Vacunas")
+    st.plotly_chart(fig)
+
+
+# ============== Porcentaje vacunados =============
+
+def porcentaje_pauta():
+    pauta_completa = 0
+    pauta_incompleta = 0
+
+    for users in all_users.each():
+        if 'dosis' in str(users.val()):
+            users_by_dosis = db.child("users/" + str(users.key()) + "/dosis").get()
+            print(str(users_by_dosis.key() + ': ') + str(users_by_dosis.val()))
+            if int(users_by_dosis.val()) > 1:
+                pauta_completa += 1
+            else:
+                pauta_incompleta += 1
+
+    print(pauta_completa)
+    print(pauta_incompleta)
+    # ====== PIE CHART - PORCENTAJE DOSIS =========
+
+    color_pauta = ['green', 'darkorange']
+    labels = ['Pauta completa', '1 dosis']
+    values = [pauta_completa, pauta_incompleta]
+
+    # Use `hole` to create a donut-like pie chart
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=.3)])
+    fig.update_traces(hoverinfo='label+value', textinfo='percent', textfont_size=20,
+                      marker=dict(colors=color_pauta, line=dict(color='#000000', width=2)))
+    st.header("Pauta de vacunación")
+    st.plotly_chart(fig)
+
+
+porcentaje_tipo_vacuna()
+porcentaje_pauta()
