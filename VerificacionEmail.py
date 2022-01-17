@@ -83,3 +83,25 @@ gnt = Data["value"][3][1]["value"][0][1]["nam"]["gnt"]
 
 vacunas = pd.read_excel('Vacunas.xlsx')
 vacunas = vacunas.to_numpy()
+for i in range (len(vacunas)):
+    if(vacunas[i][2] == mp): # mp es el org
+        tipoVacuna = vacunas[i][3]
+        fabricante = vacunas[i][1]
+        VacunaAdministrada = vacunas[i][0]
+db = {
+            "Apellidos":gn,
+            "Nombre": fn,
+            "Datos de vacunacion":{
+                "Emisor certificado":issuer,
+                "Enfermedad":tg,
+                "Fecha de Vacunación":date,
+                "Vacunas suministradas":num_dosis,
+                "Dosis":sd,
+                "Pais":pais,
+                "Tipo de vacuna":tipoVacuna,
+                "Vacuna subministrada":VacunaAdministrada,
+                "Fabricante":fabricante
+    }
+
+}
+ddbb.child("Usuarios").push(db1)
