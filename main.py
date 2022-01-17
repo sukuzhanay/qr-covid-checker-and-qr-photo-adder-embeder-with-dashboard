@@ -13,11 +13,14 @@ firebaseConfig = {
 firebase = pb.initialize_app(firebaseConfig)
 db = firebase.database()
 all_users = db.child("users").get()
+
 pauta_completa=0
 pauta_incompleta=0
 alumnos=0
+
 print(all_users.val)
-#contar Alumnos con info adecuada
+
+# contar Alumnos con info adecuada
 for users in all_users.each():
     if 'dosis' in str(users.val()):
         
@@ -28,18 +31,18 @@ for users in all_users.each():
             pauta_completa += 1
         else:
             pauta_incompleta += 1
-            
-    
-print(alumnos)
-print(pauta_completa)
-
- 1*pourcentaje Pauta completa
- def pautaIncompleta():
-    pourcentaje=(pauta_completa/3)*100
-    print("pourcentaje de alumnos que tengan pauta completa= ",pourcentaje)
-pautaIncompleta()
-2*pourcentaje Pauta incompleta
+			
+import streamlit as st
+import pandas as pd
 def pautaCompleta():
+    pourcentaje1=(pauta_completa/3)*100
+    print("pourcentaje de alumnos que tengan pauta completa= ",pourcentaje1,"%")
+def pautaIncompleta():
     pourcentaje2=(pauta_incompleta/alumnos)*100
     print("pourcentaje de alumnos que tengan pauta completa= ",pourcentaje2,"%")
+
+# percentaje pauta completa
 pautaCompleta()
+
+# percentaje pauta incompleta
+pautaIncompleta()
