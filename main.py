@@ -1,13 +1,18 @@
-import socket
-import sys
-import os
-import pandas
+import pandas as pd
 import pyrebase as pb
 import streamlit as st
 import datetime as dt
 from datetime import date
 from datetime import timedelta
 import plotly.graph_objects as plot
+
+
+# Funcion que calcula el rango de dias entre una fecha y otra
+def date_range(start, end):
+    delta = end - start
+    days = [start + timedelta(days=i) for i in range(delta.days + 1)]
+    return delta.days
+
 
 # Base de datos de PRUEBA
 firebaseConfig = {
@@ -28,6 +33,9 @@ mail = "lembajosa@gmail.com"
 password = "patata123"
 user = sign_in_up.sign_in_with_email_and_password(mail, password)
 
+
+
+
 identificador = (input("Introduzca el id: "))
 
 all_users = dd_bb.child("users").get()
@@ -35,11 +43,7 @@ all_users = dd_bb.child("users").get()
 ult_vacuna = dd_bb.child("users/" + identificador + "/fecha_vacunacion").get()
 
 
-# Funcion que calcula el rango de dias entre una fecha y otra
-def date_range(start, end):
-    delta = end - start
-    days = [start + timedelta(days=i) for i in range(delta.days + 1)]
-    return delta.days
+
 
 
 x = []
@@ -66,58 +70,36 @@ print("Tiempo medio desde la ultima vacunacion: " + str(meses_pasados))
 
 if dias_pasado <= 30:
     if dias_pasado == 1:
-        fig = plot.Figure(
-            data=[plot.Table(header=dict(values=['Tiempo medio desde la ultima vacunacion'], line_color='darkslategray',
-                                         fill_color='lightskyblue'),
-                             cells=dict(values=[[str(dias_pasado) + " dia "]]))
-                  ])
-
+        df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(dias_pasado) + " día"]})
 
     else:
-        fig = plot.Figure(
-            data=[plot.Table(header=dict(values=['Tiempo medio desde la ultima vacunacion'], line_color='darkslategray',
-                                         fill_color='lightskyblue'),
-                             cells=dict(values=[[str(dias_pasado) + " dias "]]))
-                  ])
-
-
+        df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(dias_pasado) + " días"]})
 
 else:
     if meses_pasados <= 12:
         if meses_pasados == 1:
-            fig = plot.Figure(
-                data=[plot.Table(
-                    header=dict(values=['Tiempo medio desde la ultima vacunacion'], line_color='darkslategray',
-                                fill_color='lightskyblue'),
-                    cells=dict(values=[[str(meses_pasados) + " mes"]]))
-                      ])
-
+            df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(meses_pasados) + " mes"]})
 
         else:
-            fig = plot.Figure(
-                data=[plot.Table(
-                    header=dict(values=['Tiempo medio desde la ultima vacunacion'], line_color='darkslategray',
-                                fill_color='lightskyblue'),
-                    cells=dict(values=[[str(meses_pasados) + " meses"]]))
-                      ])
-
+            df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(meses_pasados) + " meses"]})
 
     else:
         if anios == 1:
-            fig = plot.Figure(
-                data=[plot.Table(
-                    header=dict(values=['Tiempo medio desde la ultima vacunacion'], line_color='darkslategray',
-                                fill_color='lightskyblue'),
-                    cells=dict(values=[[str(anios) + " año"]]))
-                      ])
+            _meses_pasados = meses_pasados-12
+            if _meses_pasados == 1:
+                df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(anios) + " año " + str(meses_pasados-12) + "mes"]})
 
+            else:
+                df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(anios) + " año " + str(meses_pasados-12) + "meses"]})
 
         else:
-            fig = plot.Figure(
-                data=[plot.Table(
-                    header=dict(values=['Tiempo medio desde la ultima vacunacion'], line_color='darkslategray',
-                                fill_color='lightskyblue'),
-                    cells=dict(values=[[str(anios) + " años"]]))
-                      ])
+            _meses_pasados = meses_pasados - 12
+            if _meses_pasados == 1:
+                df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(anios) + " años "+ str(meses_pasados-12) + "mes"]})
 
-fig.show()
+            else:
+                df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(anios) + " años " + str(meses_pasados - 12) + "meses"]})
+
+
+st.table(df)
+
