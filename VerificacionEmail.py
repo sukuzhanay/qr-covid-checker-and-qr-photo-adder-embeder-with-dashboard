@@ -71,3 +71,15 @@ date=(Data["value"][3][1]["value"][0][1]["v"][0]["dt"])
 ma = Data["value"][3][1]["value"][0][1]["v"][0]["ma"]
 mp = Data["value"][3][1]["value"][0][1]["v"][0]["mp"]
 sd = Data["value"][3][1]["value"][0][1]["v"][0]["sd"]
+tg = Data["value"][3][1]["value"][0][1]["v"][0]["tg"]
+vp = Data["value"][3][1]["value"][0][1]["v"][0]["vp"]
+dob = Data["value"][3][1]["value"][0][1]["dob"]
+fn = Data["value"][3][1]["value"][0][1]["nam"]["fn"]
+gn = Data["value"][3][1]["value"][0][1]["nam"]["gn"]
+fnt = Data["value"][3][1]["value"][0][1]["nam"]["fnt"]
+gnt = Data["value"][3][1]["value"][0][1]["nam"]["gnt"]
+
+
+
+vacunas = pd.read_excel('Vacunas.xlsx')
+vacunas = vacunas.to_numpy()
