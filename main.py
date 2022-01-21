@@ -14,47 +14,46 @@ def date_range(start, end):
     return delta.days
 
 
-# Base de datos de PRUEBA
+# Base de datos
 firebaseConfig = {
-    "apiKey": "AIzaSyBsyBZDG0BF6F9BAi95G_bW_wVP3xt7_sc",
-    "authDomain": "pcd-prueba.firebaseapp.com",
-    "databaseURL": "https://pcd-prueba-default-rtdb.europe-west1.firebasedatabase.app/",
-    "projectId": "pcd-prueba",
-    "storageBucket": "pcd-prueba.appspot.com",
-    "messagingSenderId": "547368512451",
-    "appId": "1:547368512451:web:e7e22f6f578c608651ab76"
+  "apiKey": "AIzaSyArmVriibDlBkIJ_3yURB1e3QprmU1z3hY",
+  "authDomain": "proyectofinalpcd-816d5.firebaseapp.com",
+  "databaseURL": "https://proyectofinalpcd-816d5-default-rtdb.europe-west1.firebasedatabase.app",
+  "projectId": "proyectofinalpcd-816d5",
+  "storageBucket": "proyectofinalpcd-816d5.appspot.com",
+  "messagingSenderId": "341285184166",
+  "appId": "1:341285184166:web:988dd980f771f7b150ca67",
+  "measurementId": "G-6DE3ERD9GD"
 };
 
 firebase = pb.initialize_app(firebaseConfig)
 sign_in_up = firebase.auth()
 dd_bb = firebase.database()
-# Login de prueba
+# Login
 mail = "lembajosa@gmail.com"
 password = "patata123"
 user = sign_in_up.sign_in_with_email_and_password(mail, password)
 
-
-
-
+# De momento se le pide al usuario el identificador, sin embargo esto se tiene que autocompletar una vez inice sesion
 identificador = (input("Introduzca el id: "))
 
-all_users = dd_bb.child("users").get()
+all_users = dd_bb.child("Usuarios").get()
 # Se obtiene la fecha de vacunacion del usuario
-ult_vacuna = dd_bb.child("users/" + identificador + "/fecha_vacunacion").get()
-
-
-
+ult_vacuna = dd_bb.child("Usuarios/"+identificador+"/Datos_de_vacunacion/Fecha_de_Vacunación").get()
 
 
 x = []
 # Se realiza un split de la fecha recuperada de la base de datos
 x = str(ult_vacuna.val()).split("-")
+
 # Se guarda en un array
 anio_vacuna = int(x[0])
 mes_vacuna = int(x[1])
 dia_vacuna = int(x[2])
 
+
 # Se pasa a tipo Date
+
 tiempo_ult_vacuna = dt.date(anio_vacuna, mes_vacuna, dia_vacuna)
 # Se obtiene la fecha actual
 tiempo_actual = date.today()
@@ -87,19 +86,20 @@ else:
         if anios == 1:
             _meses_pasados = meses_pasados-12
             if _meses_pasados == 1:
-                df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(anios) + " año " + str(meses_pasados-12) + "mes"]})
+                df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(anios) + " año " + str(meses_pasados-12) + " mes"]})
 
             else:
-                df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(anios) + " año " + str(meses_pasados-12) + "meses"]})
+                df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(anios) + " año " + str(meses_pasados-12) + " meses"]})
 
         else:
             _meses_pasados = meses_pasados - 12
             if _meses_pasados == 1:
-                df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(anios) + " años "+ str(meses_pasados-12) + "mes"]})
+                df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(anios) + " años "+ str(meses_pasados-12) + " mes"]})
 
             else:
-                df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(anios) + " años " + str(meses_pasados - 12) + "meses"]})
-
+                df = pd.DataFrame({"Tiempo medio desde la ultima vacunacion": [str(anios) + " años " + str(meses_pasados - 12) + " meses"]})
 
 st.table(df)
+
+
 
