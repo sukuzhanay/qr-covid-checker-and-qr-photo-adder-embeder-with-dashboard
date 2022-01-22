@@ -32,8 +32,6 @@ for users in all_users.each():
         else:
             pauta_incompleta += 1
 			
-import streamlit as st
-import pandas as pd
 def pautaCompleta():
     pourcentaje1=(pauta_completa/3)*100
     print("pourcentaje de alumnos que tengan pauta completa= ",pourcentaje1,"%")
@@ -46,3 +44,20 @@ pautaCompleta()
 
 # percentaje pauta incompleta
 pautaIncompleta()
+
+
+import streamlit as st
+import pandas as pd
+import altair as alt
+import pandas as pd
+pourcentaje11=(pauta_incompleta/alumnos)*100
+pourcentaje22=(pauta_completa/alumnos)*100
+source = pd.DataFrame({
+    'a': ['una dosis', 'dos dosis'],
+    'b': [pourcentaje11, pourcentaje22]
+})
+
+alt.Chart(source).mark_bar().encode(
+    x='a',
+    y='b'
+)
