@@ -5,14 +5,7 @@ import datetime as dt
 import plotly.graph_objects as go
 from datetime import date
 from datetime import timedelta
-import plotly.graph_objects as plot
-
-
-# Funcion que calcula el rango de dias entre una fecha y otra
-def date_range(start, end):
-    delta = end - start
-    days = [start + timedelta(days=i) for i in range(delta.days + 1)]
-    return delta.days
+import altair as alt
 
 
 # Base de datos
