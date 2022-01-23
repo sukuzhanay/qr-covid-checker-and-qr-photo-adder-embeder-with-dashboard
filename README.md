@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # _**Sin terminar**_
 ## Datos del dashboard
 
@@ -12,4 +13,17 @@ El archivo .json sirve para entender la estructura de la base de datos creada po
 El .png es el resultado por streamlit del codigo, cuando los datos se sacan de nuestra base de datos.
 
 ![Logo of the project](https://github.com/sukuzhanay/qr-covid-checker-and-qr-photo-adder-embeder-with-dashboard/blob/main/uem%20logo.jpeg)
+=======
+# Tiempo medio desde la última vacunación
+
+Se calcula el tiempo medio aproximado desde la última vacunación de un usuario, además muestra una tabla con el respectivo tiempo transcurrido.
+
+https://github.com/sukuzhanay/qr-covid-checker-and-qr-photo-adder-embeder-with-dashboard/blob/941aea862c11e0ed1676776a509278c420cc6fcb/tiempo_medio.png
+
+# Periodo de vacunación
+
+Se calcula el tiempo medio aproximado desde la última vacunación de todos los usuarios y muestra un gráfico con el respectivo tiempo transcurrido.
+
+https://github.com/sukuzhanay/qr-covid-checker-and-qr-photo-adder-embeder-with-dashboard/blob/941aea862c11e0ed1676776a509278c420cc6fcb/periodo_vacunacion.png
+>>>>>>> grupo1_lian
 
