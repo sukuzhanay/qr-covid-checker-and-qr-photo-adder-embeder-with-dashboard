@@ -35,19 +35,19 @@ const AppStack = () => {
       <Stack.Screen
         name="QRReader"
         component={QRReader}
-        options={{ title: 'Escaneo del código QR' }}
+        options={{ title: 'Point to the QR Code' }}
       />
 
       <Stack.Screen
         name="QRShow"
         component={QRShow}
-        options={{ title: 'Compartir QR' }}
+        options={{ title: 'Share QR' }}
       />
 
       <Stack.Screen
         name="QRResult"
         component={QRResult}
-        options={{ title: 'Verificación completa' }}
+        options={{ title: 'Verification Complete' }}
       />
     </Stack.Navigator>
   );
@@ -95,7 +95,7 @@ const Router = () => {
 const AuthProvider = ({children}) => {
   const [authData, setAuthData] = useState(undefined);
   const [loading, setLoading] = useState(undefined);
-
+  
   const loadBiometricSupport = async () => {
       if (loading === undefined) {
         setLoading(true);
