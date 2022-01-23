@@ -2,22 +2,21 @@ import pandas as pd
 import pyrebase as pb
 import streamlit as st
 import datetime as dt
-import plotly.graph_objects as go
 from datetime import date
 from datetime import timedelta
+import plotly.graph_objects as go
 import altair as alt
-
 
 # Base de datos
 firebaseConfig = {
-  "apiKey": "AIzaSyArmVriibDlBkIJ_3yURB1e3QprmU1z3hY",
-  "authDomain": "proyectofinalpcd-816d5.firebaseapp.com",
-  "databaseURL": "https://proyectofinalpcd-816d5-default-rtdb.europe-west1.firebasedatabase.app",
-  "projectId": "proyectofinalpcd-816d5",
-  "storageBucket": "proyectofinalpcd-816d5.appspot.com",
-  "messagingSenderId": "341285184166",
-  "appId": "1:341285184166:web:988dd980f771f7b150ca67",
-  "measurementId": "G-6DE3ERD9GD"
+    "apiKey": "AIzaSyArmVriibDlBkIJ_3yURB1e3QprmU1z3hY",
+    "authDomain": "proyectofinalpcd-816d5.firebaseapp.com",
+    "databaseURL": "https://proyectofinalpcd-816d5-default-rtdb.europe-west1.firebasedatabase.app",
+    "projectId": "proyectofinalpcd-816d5",
+    "storageBucket": "proyectofinalpcd-816d5.appspot.com",
+    "messagingSenderId": "341285184166",
+    "appId": "1:341285184166:web:988dd980f771f7b150ca67",
+    "measurementId": "G-6DE3ERD9GD"
 }
 
 firebase = pb.initialize_app(firebaseConfig)
@@ -28,16 +27,17 @@ mail = "lembajosa@gmail.com"
 password = "patata123"
 user = sign_in_up.sign_in_with_email_and_password(mail, password)
 
+
 def date_range(start, end):
     delta = end - start
     days = [start + timedelta(days=i) for i in range(delta.days + 1)]
     return delta.days
 
+
 def tiempo_medio():
-
     # De momento se le pide al usuario el identificador, sin embargo esto se tiene que autocompletar una vez inice sesion
-    identificador = (input("Introduzca el id: "))
-
+    # identificador = (input("Introduzca el id: "))
+    identificador = "-MtxR0BuaUBfm_63F__G"
     all_users = dd_bb.child("Usuarios").get()
     # Se obtiene la fecha de vacunacion del usuario
     ult_vacuna = dd_bb.child("Usuarios/" + identificador + "/Datos_de_vacunacion/Fecha_de_Vacunación").get()
@@ -104,6 +104,7 @@ def tiempo_medio():
 
     st.table(df)
 
+
 def periodo_vacunacion():
     # Se obtienen todos los usuarios
     all_users = dd_bb.child("Usuarios").get()
@@ -115,7 +116,7 @@ def periodo_vacunacion():
 
     # Variables donde se guardaran los resultados
     unoMeses = 0
-    tres_meses = 0
+    tresMeses = 0
     seisMeses = 0
     nueveMeses = 0
     doceMeses = 0
@@ -155,7 +156,7 @@ def periodo_vacunacion():
             elif 1 <= meses_pasados <= 2:
                 unoMeses += 1
             elif 3 <= meses_pasados <= 5:
-                tres_meses += 1
+                tresMeses += 1
             elif 6 <= meses_pasados <= 8:
                 seisMeses += 1
             elif 9 <= meses_pasados <= 11:
@@ -171,7 +172,7 @@ def periodo_vacunacion():
     # Se cargan los valores del grafico
     source = pd.DataFrame({
         'Tiempo transcurrido': ["1 meses", "3 meses", "6 meses", "9 meses", "12 meses", "15 meses"],
-        'Número de personas': [unoMeses, tres_meses, seisMeses, nueveMeses, doceMeses, quinceMeses]
+        'Número de personas': [unoMeses, tresMeses, seisMeses, nueveMeses, doceMeses, quinceMeses]
     })
 
     chart = alt.Chart(source).mark_bar(color='purple').encode(
@@ -217,11 +218,12 @@ def porcentaje_tipo_vacuna():
             hoverinfo="label+percent",
             textinfo="value"
         ))
-    fig.update_traces(hoverinfo='label+value', textinfo='percent', textfont_size=20)
 
-    # Grafica se pasa a Streamlit
+    fig.update_traces(hoverinfo='label+value', textinfo='percent', textfont_size=10)
     st.header("Vacunas")
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, use_container_width=True)
+    # Grafica se pasa a Streamlit
+
 
 # ============== Porcentaje vacunados =============
 
@@ -234,7 +236,8 @@ def porcentaje_pauta_completa():
     for users in all_users.each():
         if 'Dosis' in str(users.val()):
             users_by_dosis = dd_bb.child("Usuarios/" + str(users.key()) + "/Datos_de_vacunacion/Dosis").get()
-            users_by_dosis_suministradas = dd_bb.child("Usuarios/" + str(users.key()) + "/Datos_de_vacunacion/Vacunas_suministradas").get()
+            users_by_dosis_suministradas = dd_bb.child(
+                "Usuarios/" + str(users.key()) + "/Datos_de_vacunacion/Vacunas_suministradas").get()
 
             print(str(users_by_dosis.key() + ': ') + str(users_by_dosis.val()))
             print(str(users_by_dosis_suministradas.key() + ': ') + str(users_by_dosis_suministradas.val()))
@@ -253,9 +256,20 @@ def porcentaje_pauta_completa():
 
     # Use `hole` to create a donut-like pie chart
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=.3)])
-    fig.update_traces(hoverinfo='label+value', textinfo='percent+label', textfont_size=20,
-                      marker=dict(colors=color_pauta, line=dict(color='#000000', width=2)))
+    fig.update_traces(hoverinfo='label+value', textinfo='percent+label', textfont_size=10,
+                      marker=dict(colors=color_pauta, line=dict(color='#000000')))
+    fig.update_yaxes(automargin=True)
     st.header("Pauta de vacunación")
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, use_container_width=True)
 
 
+c = st.container()
+with c:
+    tiempo_medio()
+col1, col2, col3 = st.columns(3)
+with col1:
+    porcentaje_tipo_vacuna()
+    porcentaje_pauta_completa()
+with col2:
+    tiempo_medio()
+    periodo_vacunacion()
