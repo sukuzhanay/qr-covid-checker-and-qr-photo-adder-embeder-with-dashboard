@@ -13,14 +13,16 @@ firebaseConfig = {
   "measurementId": "G-6DE3ERD9GD"
 }
 firebase = pb.initialize_app(firebaseConfig)
+
 db = firebase.database()
 all_users = db.child("Usuarios").get()
+#contadores
 pauta_completa=0
 pauta_incompleta=0
 alumnos=0
 
 print(all_users.val)
-# contar Alumnos con info adecuada
+# contar el numero de Alumnos con info adecuada
 
 for users in all_users.each():
         if 'Dosis' in str(users.val()):
@@ -42,7 +44,8 @@ print("nombre de Alumnos con pauta incompleta: ",pauta_incompleta)
 
 # Total de alumnos vacunados
 print("nombre de Alumnos vacunados: ",alumnos)
-# primer diagrama de pauta completa y incompleta
+
+# diferencia entre alumnos de pauta completa y de pauta incompleta
 import pandas as pd
 import altair as alt
 
@@ -53,16 +56,11 @@ alt.Chart(source).mark_arc(innerRadius=50).encode(
     color=alt.Color(field="category", type="nominal"),
 )
 
-# segundo diagrama
-import altair as alt
-import pandas as pd
+# segundo diagrama que presenta el n_alumnos de pauta completa, pauta incompleta y total de alumnos vacunados
+import plotly.graph_objects as go
+fig = go.Figure(go.Bar(
+            x=[pauta_completa,pauta_incompleta ,alumnos],
+            y=['n_alumnos pauta completa', 'n_alumnos pauta incompleta', 'total de alumnos '],
+            orientation='h'))
 
-source = pd.DataFrame({
-    'estado de vacunacion': [' pauta completa', ' pauta incompleta'],
-    'total de alumnos': [pauta_completa,pauta_incompleta ]
-})
-
-alt.Chart(source).mark_bar().encode(
-    x="estado de vacunacion",
-    y="total de alumnos"
-)
+fig.show()
