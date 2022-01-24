@@ -1,3 +1,5 @@
+https://github.com/Path-Check/universal-verifier-app
+
 Punto 1
 
 Para ejecutar el proyecto es necesario lo siguiente:
@@ -17,7 +19,7 @@ ES UNA V INVERTIDA EN BLANCO Y NEGRO.
   Aquí terminaría de instalar el simulador android. Pasamos a React Native.
 
 
-
+C:\Users\camilo\Desktop\QR_Code_ReactNative\APP_CERT_COVID
 
 
 Punto 2.
@@ -35,7 +37,7 @@ Punto 2.
 
   - Al descargar los directorios, crearemos un archivo en el directorio Android con nombre local.properties donde introduciremos la siguiente línea (incluyendo las doble \\),
     sdk.dir=C:\\Users\\camilo\\AppData\\Local\\Android\\Sdk
-    El Sdk del final puede variar. Puede ser sdk en minúscula. En nuestro caso, se puede ver que es con la primera mayúscula.
+    El Sdk del final puede variar. Puede ser sdk. En nuestro caso, se puede ver que es con la primera mayúscula.
 
   - Nos dirigimos a la carpeta "editar las Variables del entorno del sistema" de forma gráfica, y hacemos clic en la parte inferior donde pone
     Variables del entorno. En el cuadrado de arriba donde hace referencia a tu usuario, hacemos clic en Path, y seleccionamos la opción de editar.
@@ -56,3 +58,17 @@ Punto 2.
 
   - Ya debería de haberse iniciado el proceso de descarga y configuración. Al terminar de cargar, os dirigis al dispositivo virtual y veréis
   que ha cargado la App.
+
+
+Si al final, cuando ejecutais react-native run-android os sale un probrema como "no se reconoce un comando interno o externo", ejecutar cmd como administrador e intentais con lo siguiente:
+(no es necesario ejecutar todo, a veces funciona con un comando y otras veces con otro. En caso de no arrancar con el primero pasais al siguiente y así sucesivamente hasta que ejecute react-native ...)
+
+  - npm i -g react-native-cli (cierre el terminal y dirijase al proyecto abriendo otro terminal. ejecute react-native run-android. Si no funciona, abra un terminal como admin y ejecute el siguiente comando.)
+  - yarn install
+
+En caso de que no funcionase los anteriores, ejecute los siguientes comandos de uno en uno (Estos 3 siguientes si hay que ejecutarlos juntos).
+  - npm cache clean --force
+  - npm -g uninstall expo-cli --save
+  - npm install -g expo-cli
+
+    cierre el terminal y dirijase al proyecto abriendo otro terminal. ejecute react-native run-android. Ya debería de funcionar.
