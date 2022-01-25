@@ -312,6 +312,82 @@ def pauta_media():
     st.plotly_chart(fig)
 
 
+def vacunados_mes():
+    # Se obtienen todos los usuarios
+    all_users = dd_bb.child("Usuarios").get()
+
+    x = []
+    y = []
+
+    enero = 0
+    febrero = 0
+    marzo = 0
+    abril = 0
+    mayo = 0
+    junio = 0
+    julio = 0
+    agosto = 0
+    septiembre = 0
+    octubre = 0
+    noviembre = 0
+    diciembre = 0
+
+    contador = 0
+
+    for users in all_users.each():
+        if 'Fecha_de_Vacunación' in str(users.val()):
+            ult_vacuna = dd_bb.child("Usuarios/" + str(users.key()) + "/Datos_de_vacunacion/Fecha_de_Vacunación").get()
+            # Las fechas se guardan en un array
+            x.append(ult_vacuna.val())
+            # Se guarda en y la fecha dividida con el split
+            y = str(x[contador]).split("-")
+
+            mes_vacuna = int(y[1])
+            print(mes_vacuna)
+            if mes_vacuna == 1:
+                enero += 1
+            elif mes_vacuna == 2:
+                febrero += 1
+            elif mes_vacuna == 3:
+                marzo += 1
+            elif mes_vacuna == 4:
+                abril += 1
+            elif mes_vacuna == 5:
+                mayo += 1
+            elif mes_vacuna == 6:
+                junio += 1
+            elif mes_vacuna == 7:
+                julio += 1
+            elif mes_vacuna == 8:
+                agosto += 1
+            elif mes_vacuna == 9:
+                septiembre += 1
+            elif mes_vacuna == 10:
+                octubre += 1
+            elif mes_vacuna == 11:
+                noviembre += 1
+            elif mes_vacuna == 12:
+                diciembre += 1
+
+            contador += 1
+
+    source = pd.DataFrame({
+        'Mes': ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre",
+                "noviembre", "diciembre"],
+        'Personas/mes': [enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre,
+                         diciembre]
+    })
+
+    chart = alt.Chart(source).mark_bar(color='purple').encode(
+        x=alt.X("Mes:O", title="Mes",
+                sort=["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre",
+                      "noviembre", "diciembre"]),
+        y=alt.Y("Personas/mes:Q", title="Personas/mes", axis=alt.Axis(tickMinStep=1),
+                scale=alt.Scale(domain=(0, contador + 1))),
+    )
+    st.altair_chart(chart)
+
+
 c = st.container()
 col1A, col2A = st.columns(2)
 with c:
@@ -324,3 +400,5 @@ with col1:
 with col2:
     tiempo_medio()
     periodo_vacunacion()
+with col3:
+    vacunados_mes()
