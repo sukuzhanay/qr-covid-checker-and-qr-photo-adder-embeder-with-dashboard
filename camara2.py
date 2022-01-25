@@ -8,11 +8,16 @@ camera = cv2.VideoCapture(0)
 tomar_foto=st.button('Tomar foto')
 while run:
     _,frame = camera.read()
-    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    _,imagen = camera.read()
+    frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGRA)
+
     FRAME_WINDOW.image(frame)
+
     if tomar_foto:
         img_name = "fotoPersona.png"
-        cv2.imwrite(img_name, frame)
+        #img2 = cv2.read(imagen)
+        cv2.imwrite(img_name, imagen)
+        #cv2.imwrite(img_name, cv2.cvtColor(img, cv2.COLOR_BGRA2RGB))
         print("fotoPersona.png written!")
         break
 else:
