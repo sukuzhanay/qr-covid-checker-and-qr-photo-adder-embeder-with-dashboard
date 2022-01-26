@@ -19,9 +19,10 @@ st.set_page_config(page_title="QR decoder", layout="wide")
 #--Header--
 st.subheader("HC1 decoder")
 user_input = st.text_input("Insert your HC1 code here")
-data = decoder(user_input)
-st.write(data)
 
+if user_input:  
+    data = decoder(user_input) 
+    st.write(data)
 
 
 
