@@ -15,12 +15,19 @@ firebaseConfig = {
 
    firebase=pb.initialize_app(firebaseConfig)  
 ddbb=firebase.database()
-sing_in_up=firebase.auth()  # inicio de sesion
+sign_in_up=firebase.auth()  # inicio de sesion
 email=input("Introduzca su email")
 contrasenia = input("Introduzca su contraseña")
-user = sing_in_up.create_user_with_email_and_password(email, contrasenia) # da de alta el email y la contra
-Token = user.get("idToken") # genera el token del usuario
-sign_in_with_token = sing_in_up.send_email_verification(Token) # verificacion enviada al email
+try:
+    user = sign_in_up.create_user_with_email_and_password(email, contrasenia) # da de alta el email y la contra
+    Token = user.get("idToken") # genera el token del usuario
+    sign_in_with_token = sign_in_up.send_email_verification(Token) # verificacion enviada al email
+except:
+    try:
+        user = sign_in_up.sign_in_with_email_and_password(email, contrasenia)
+        Token = user.get("idToken") # genera el token del usuario
+    except:
+        print("Contraseña incorrecta")
 Data = {
   "dataType": "Map",
   "value": [
