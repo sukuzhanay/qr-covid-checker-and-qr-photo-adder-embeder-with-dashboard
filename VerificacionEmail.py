@@ -101,21 +101,30 @@ tipoVacuna = tipo_vacuna(vp)
 
 
 db = {
-            "Apellidos":gn,
-            "Nombre": fn,
-            "Datos de vacunacion":{
-                "Emisor certificado":issuer,
+            "Apellidos":fn,
+            "Nombre":gn,
+            "Datos_de_vacunacion":{
+                "ID_vacunacion":ci,
+                "Emisor_certificado":issuer,
                 "Enfermedad":tg,
-                "Fecha de Vacunación":date,
-                "Vacunas suministradas":num_dosis,
+                "Fecha_de_Vacunación":date,
+                "Vacunas_suministradas":num_dosis,
                 "Dosis":sd,
                 "Pais":pais,
-                "Tipo de vacuna":tipoVacuna,
-                "Vacuna subministrada":VacunaAdministrada,
+                "Tipo_de_vacuna":tipoVacuna,
+                "Vacuna_subministrada":VacunaAdministrada,
                 "Fabricante":fabricante
-    }
+            }
 
 }
-ddbb.child("Usuarios").push(db1)
+all_users = ddbb.child("Usuarios").get()
+for users in all_users.each():
+    if 'ID_vacunacion' in str(users.val()):
+        vac = ddbb.child("Usuarios/" + str(users.key()) + "/Datos_de_vacunacion/ID_vacunacion").get()
+        if (vac.val()==ci):
+            ddbb.child("Usuarios/" + str(users.key())).update(db)
+        else:
+            ddbb.child("Usuarios").push(db)
+        break
 
 ##############################################################################################################################################
