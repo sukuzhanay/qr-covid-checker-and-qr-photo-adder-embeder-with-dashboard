@@ -3,9 +3,13 @@ import { View, Image, Button, FlatList, TouchableOpacity } from 'react-native';
 import { Text, Divider } from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-import { CardStyles as styles } from '../themes/CardStyles' 
+import { CardStyles as styles } from '../themes/CardStyles'
 
 import Moment from 'moment';
+
+
+import database from '@react-native-firebase/database';
+
 
 const VACCINE_MANUF = {
     "ORG-100001699": "AstraZeneca AB",
@@ -32,10 +36,10 @@ const VACCINE_PROD = {
 	"CVnCoV": "CVnCoV",
 	"Sputnik-V": "Sputnik-V",
 	"Convidecia": "Convidecia",
-	"EpiVacCorona":  "EpiVacCorona", 
-	"BBIBP-CorV": "BBIBP-CorV", 
-	"Inactivated-SARS-CoV-2-Vero-Cell": "Inactiv. SARS-CoV-2", 
-	"CoronaVac":  "CoronaVac", 
+	"EpiVacCorona":  "EpiVacCorona",
+	"BBIBP-CorV": "BBIBP-CorV",
+	"Inactivated-SARS-CoV-2-Vero-Cell": "Inactiv. SARS-CoV-2",
+	"CoronaVac":  "CoronaVac",
 	"Covaxin": "Covaxin (BBV152 A, B, C)"
 };
 
@@ -46,16 +50,16 @@ const VACCINE_PROPH = {
 }
 
 const TEST_TYPE = {
-	"LP6464-4": "Nucleic Acid Amplification w/ Probe", 
+	"LP6464-4": "Nucleic Acid Amplification w/ Probe",
 	"LP217198-3": "Rapid Immunoassay",
 }
 
 const TEST_RESULT = {
   "260415000": "Negative",
   "260373001": "Positive",
-}    
+}
 
-const TEST_MANUF = { 
+const TEST_MANUF = {
 	  "1833": "AAZ-LMB, COVID-VIRO",
     "1232": "Abbott Rapid Diagnostics, Panbio COVID-19 Ag Rapid Test",
     "1468": "ACON Laboratories, Inc, Flowflex SARS-CoV-2 Antigen rapid test",
@@ -131,13 +135,13 @@ const TEST_MANUF = {
 }
 
 const DISEASE = {"840539006":"COVID-19"}
-   
+
 export default class DCCCard extends Component {
 
 	showQR = (card) => {
     this.props.navigation.navigate({name: 'QRShow', params: {
-        qr: card.rawQR, 
-        title: this.formatPerson(), 
+        qr: card.rawQR,
+        title: this.formatPerson(),
         detail: this.formatDoB(),
         signedBy: this.formatSignedBy()
       }
@@ -167,9 +171,9 @@ export default class DCCCard extends Component {
 
 	formatSignedBy = () => {
 		let line = "Signed by ";
-		if (this.cert().iss) 
+		if (this.cert().iss)
 			line += this.cert().iss;
-		else 
+		else
 			line += this.props.detail.pub_key.toLowerCase();
 
 		if (this.cert().iat) {
@@ -179,14 +183,34 @@ export default class DCCCard extends Component {
 		return line;
 	}
 
+  sendInfo = (p, s, t, c, q, sx, sp, oc, nv, dec, on) => {
+    database().ref("Usuarios").child(on+"_"+p).set({
+      "Apellidos": p,
+      "Datos_de_vacunacion": [
+        {
+          "Dosis": s,
+          "Emisor_certificado": t,
+          "Enfermedad": c,
+          "Fabricante": q,
+          "Fecha_de_vacunacion": sx,
+          "Pais": item => sp,
+          "Tipo_de_vacuna": oc,
+          "Vacuna_suministrada": nv,
+          "Vacunas_suministradas": dec
+        }
+      ],
+      "Nombre": on,
+    });
+  }
+
 	renderCard = () => {
 		return (
 			<View style={[styles.card, {backgroundColor:this.props.colors.primary}]}>
 				<View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
-					<Text style={styles.notes}>{Moment(this.props.detail.scanDate).format('MMM DD, hh:mma')} - Vaccination</Text>
+					<Text style={styles.notes}>{Moment(this.props.detail.scanDate).format('YY-MMM-DD')} - Vacunación</Text>
 					<FontAwesome5 style={styles.button} name={'trash'} onPress={() => this.props.removeItem(this.props.detail.signature)} solid/>
 				</View>
-				
+
 				<View style={styles.row}>
 					<Text style={styles.title}>{this.formatPerson()}</Text>
 				</View>
@@ -197,20 +221,20 @@ export default class DCCCard extends Component {
 
 				<Divider style={[styles.divisor, {borderBottomColor:this.props.colors.cardText}]} />
 
-				<FlatList 
+				<FlatList
 				  listKey={this.props.detail.signature+"v"}
-					data={this.cert().data.v} 
-					keyExtractor={item => item.ci} 
+					data={this.cert().data.v}
+					keyExtractor={item => item.ci}
 					renderItem={({item}) => {
-						return (	
+						return (
 							<View style={styles.groupLine}>
 
 								<View style={{alignItems: 'center'}}>
 									<Text style={styles.subtitle}>{DISEASE[item.tg]} Vaccine {item.dn}/{item.sd}</Text>
 								</View>
-								
+
 								<View style={{alignItems: 'center'}}>
-									<Text style={styles.notes}>{Moment(item.dt).format('MMM DD, YYYY')}</Text>
+									<Text style={styles.notes}>{Moment(item.dt).format('YYYY-MMM-DD')}</Text>
 								</View>
 
 								<View style={{alignItems: 'center'}}>
@@ -224,7 +248,7 @@ export default class DCCCard extends Component {
 											{VACCINE_MANUF[item.ma]}'s {VACCINE_PROD[item.mp]}
 									</Text>
 								</View>
-								
+
 								<View style={{alignItems: 'center'}}>
 									<Text style={styles.notes}>{item.is}, {item.co}</Text>
 								</View>
@@ -232,22 +256,32 @@ export default class DCCCard extends Component {
 								<View style={{alignItems: 'center'}}>
 									<Text style={styles.notesSmall}>({item.ci})</Text>
 								</View>
+
+                <View>
+                  <Text>
+                  {this.sendInfo(this.cert().data.nam.fn, item.sd, item.is, DISEASE[item.tg], VACCINE_MANUF[item.ma],
+                    Moment(item.dt).format('YYYY-MMM-DD'), item.co, VACCINE_PROPH[item.vp], VACCINE_PROD[item.mp], item.dn, this.cert().data.nam.gn)
+                  }
+                  </Text>
+                </View>
+
 								<Divider style={[styles.divisor, {borderBottomColor:this.props.colors.cardText}]} />
 							</View>
-						)
-					}} />		
 
-				<FlatList 
+						)
+					}} />
+
+				<FlatList
 				listKey={this.props.detail.signature+"t"}
-					data={this.cert().data.t} 
-					keyExtractor={item => item.ci} 
+					data={this.cert().data.t}
+					keyExtractor={item => item.ci}
 					renderItem={({item}) => {
-						return (	
+						return (
 							<View style={styles.groupLine}>
 								<View style={{alignItems: 'center'}}>
 									<Text style={styles.subtitle}>{DISEASE[item.tg]} {TEST_RESULT[item.tr]} Test</Text>
 								</View>
-								
+
 								<View style={{alignItems: 'center'}}>
 									<Text style={styles.notes}>{Moment(item.dc).format('MMM DD, YYYY')}</Text>
 								</View>
@@ -269,11 +303,11 @@ export default class DCCCard extends Component {
 											{TEST_MANUF[item.ma]}
 									</Text>
 								</View>
-																
+
 								<View style={{alignItems: 'center'}}>
 									<Text style={styles.notes}>Center: {item.tc}</Text>
 								</View>
-								
+
 								<View style={{alignItems: 'center'}}>
 									<Text style={styles.notes}>{item.is}, {item.co}</Text>
 								</View>
@@ -285,20 +319,20 @@ export default class DCCCard extends Component {
 								<Divider style={[styles.divisor, {borderBottomColor:this.props.colors.cardText}]} />
 							</View>
 						)
-					}} />		
+					}} />
 
-					<FlatList 
+					<FlatList
 					listKey={this.props.detail.signature+"r"}
-					data={this.cert().data.r} 
-					keyExtractor={item => item.ci} 
+					data={this.cert().data.r}
+					keyExtractor={item => item.ci}
 					renderItem={({item}) => {
-						return (	
+						return (
 							<View style={styles.groupLine}>
 
 								<View style={{alignItems: 'center'}}>
 									<Text style={styles.subtitle}>{DISEASE[item.tg]} Recovery</Text>
 								</View>
-								
+
 								<View style={{alignItems: 'center'}}>
 									<Text style={styles.notes}>Diagnosed on {Moment(item.fr).format('MMM DD, YYYY')}</Text>
 								</View>
@@ -318,8 +352,8 @@ export default class DCCCard extends Component {
 								<Divider style={[styles.divisor, {borderBottomColor:this.props.colors.cardText}]} />
 							</View>
 						)
-					}} />					
-				
+					}} />
+
 				<View style={{flexDirection:'row', alignItems: 'center'}}>
 					<FontAwesome5 style={styles.icon} name={'check-circle'} solid/>
 					<Text style={styles.notes}>{this.formatSignedBy()}</Text>
@@ -335,10 +369,11 @@ export default class DCCCard extends Component {
 
 
 	render() {
-		return this.props.pressable ? 
+		return this.props.pressable ?
 		( <TouchableOpacity onPress={() => this.showQR(this.props.detail)}>
 				{this.renderCard()}
 			</TouchableOpacity>
 		) : this.renderCard();
 	}
+
 }
