@@ -2,6 +2,8 @@ import pyrebase as pb
 import socket
 import pandas as pd, numpy as np
 
+##############################################################################################################################################
+
 firebaseConfig = {
   "apiKey": "AIzaSyArmVriibDlBkIJ_3yURB1e3QprmU1z3hY",
   "authDomain": "proyectofinalpcd-816d5.firebaseapp.com",
@@ -13,8 +15,12 @@ firebaseConfig = {
   "measurementId": "G-6DE3ERD9GD"
 }
 
-   firebase=pb.initialize_app(firebaseConfig)  
+firebase=pb.initialize_app(firebaseConfig)  
 ddbb=firebase.database()
+storage = firebase.storage()
+
+##############################################################################################################################################
+
 sign_in_up=firebase.auth()  # inicio de sesion
 email=input("Introduzca su email")
 contrasenia = input("Introduzca su contraseña")
@@ -29,7 +35,8 @@ except:
     except:
         print("Contraseña incorrecta")
 
-storage = firebase.storage()
+##############################################################################################################################################
+
 datadir = 'https://console.firebase.google.com/project/proyectofinalpcd-816d5/storage/proyectofinalpcd-816d5.appspot.com/files/~2Farchivos'
 storage.child('archivos/data').download(datadir,'data1.json')
 with open('data1.json') as file:
@@ -51,15 +58,48 @@ fnt = data['Data']["value"][3][1]["value"][0][1]["nam"]["fnt"]
 gnt = data['Data']["value"][3][1]["value"][0][1]["nam"]["gnt"]
 issuer = data['Data']["value"][3][1]["value"][0][1]["v"][0]["is"]
 
+##############################################################################################################################################
+def recuperar_datos_vacunas():
+    datadir = 'https://console.firebase.google.com/project/proyectofinalpcd-816d5/storage/proyectofinalpcd-816d5.appspot.com/files/~2Farchivos'
+    storage.child('archivos/vacunas.json').download(datadir,'vacunas.json')
+    storage.child('archivos/Fabricante.json').download(datadir,'Fabricante.json')
+    storage.child('archivos/profilaxis.json').download(datadir,'profilaxis.json')
+    
+def nombre_vacuna(mp):
+    with open('vacunas.json') as vacunas:
+        json_vacuna = json.load(vacunas)
+    for key in json_vacuna["valueSetValues"]:
+        if (key==mp):
+            vacuna = json_vacuna["valueSetValues"][key]['display']
+            print(vacuna)
+    return vacuna
+
+def fabricante_vacuna(ma):
+    with open('Fabricante.json') as fabricante:
+        json_fabricante = json.load(fabricante)
+    for key in json_fabricante["valueSetValues"]:
+        if (key==ma):
+            fabricante = json_fabricante["valueSetValues"][key]['display']
+            print(fabricante)
+    return fabricante
+
+def tipo_vacuna(vp):
+    with open('profilaxis.json') as profilaxis:
+        json_profilaxis = json.load(profilaxis)
+    for key in json_profilaxis["valueSetValues"]:
+        if (key==vp):
+            tipoVacuna = json_profilaxis["valueSetValues"][key]['display']
+            print(tipoVacuna)
+    return tipoVacuna
+
+recuperar_datos_vacunas()
+VacunaAdministrada = nombre_vacuna(mp)
+fabricante = fabricante_vacuna(ma)
+tipoVacuna = tipo_vacuna(vp)
+
+##############################################################################################################################################
 
 
-vacunas = pd.read_excel('Vacunas.xlsx')
-vacunas = vacunas.to_numpy()
-for i in range (len(vacunas)):
-    if(vacunas[i][2] == mp): # mp es el org
-        tipoVacuna = vacunas[i][3]
-        fabricante = vacunas[i][1]
-        VacunaAdministrada = vacunas[i][0]
 db = {
             "Apellidos":gn,
             "Nombre": fn,
@@ -77,3 +117,5 @@ db = {
 
 }
 ddbb.child("Usuarios").push(db1)
+
+##############################################################################################################################################
