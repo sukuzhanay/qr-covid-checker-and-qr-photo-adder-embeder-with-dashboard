@@ -28,63 +28,28 @@ except:
         Token = user.get("idToken") # genera el token del usuario
     except:
         print("Contraseña incorrecta")
-Data = {
-  "dataType": "Map",
-  "value": [
-    [ 1, "ES" ],
-    [ 4, 1685780100 ],
-    [ 6, 1638619336 ],
-    [
-      -260,
-      {
-        "dataType": "Map",
-        "value": [
-          [
-            1,
-            {
-              "v": [
-                {
-                  "ci": "01ES21VD3451FE17930000632516#4",
-                  "co": "ES",
-                  "dn": 1,
-                  "dt": "2021-07-18",
-                  "is": "Ministerio de sanidad",
-                  "ma": "ORG-100031184",
-                  "mp": "EU/1/20/1507",
-                  "sd": 1,
-                  "tg": "840539006",
-                  "vp": "1119349007"
-                }
-              ],
-              "dob": "1977-05-05",
-              "nam": {
-                "fn": "SUCUZHANAY AREVALO",
-                "gn": "CHRISTIAN VLADIMIR",
-                "fnt": "SUCUZHANAY<AREVALO",
-                "gnt": "CHRISTIAN<VLADIMIR"
-              },
-              "ver": "1.3.0"
-            }
-          ]
-        ]
-      }
-    ]
-  ]
-}
-Id = (Data["value"][3][1]["value"][0][1]["v"][0]["ci"])
-pais=(Data["value"][3][1]["value"][0][1]["v"][0]["co"])
-num_dosis=(Data["value"][3][1]["value"][0][1]["v"][0]["dn"])
-date=(Data["value"][3][1]["value"][0][1]["v"][0]["dt"])
-ma = Data["value"][3][1]["value"][0][1]["v"][0]["ma"]
-mp = Data["value"][3][1]["value"][0][1]["v"][0]["mp"]
-sd = Data["value"][3][1]["value"][0][1]["v"][0]["sd"]
-tg = Data["value"][3][1]["value"][0][1]["v"][0]["tg"]
-vp = Data["value"][3][1]["value"][0][1]["v"][0]["vp"]
-dob = Data["value"][3][1]["value"][0][1]["dob"]
-fn = Data["value"][3][1]["value"][0][1]["nam"]["fn"]
-gn = Data["value"][3][1]["value"][0][1]["nam"]["gn"]
-fnt = Data["value"][3][1]["value"][0][1]["nam"]["fnt"]
-gnt = Data["value"][3][1]["value"][0][1]["nam"]["gnt"]
+
+storage = firebase.storage()
+datadir = 'https://console.firebase.google.com/project/proyectofinalpcd-816d5/storage/proyectofinalpcd-816d5.appspot.com/files/~2Farchivos'
+storage.child('archivos/data').download(datadir,'data1.json')
+with open('data1.json') as file:
+    data = json.load(file)
+
+ci =data['Data']["value"][3][1]["value"][0][1]["v"][0]["ci"]
+pais=data['Data']["value"][3][1]["value"][0][1]["v"][0]["co"]
+num_dosis=data['Data']["value"][3][1]["value"][0][1]["v"][0]["dn"]
+date=data['Data']["value"][3][1]["value"][0][1]["v"][0]["dt"]
+ma = data['Data']["value"][3][1]["value"][0][1]["v"][0]["ma"]
+mp = data['Data']["value"][3][1]["value"][0][1]["v"][0]["mp"]
+sd = data['Data']["value"][3][1]["value"][0][1]["v"][0]["sd"]
+tg = data['Data']["value"][3][1]["value"][0][1]["v"][0]["tg"]
+vp = data['Data']["value"][3][1]["value"][0][1]["v"][0]["vp"]
+dob = data['Data']["value"][3][1]["value"][0][1]["dob"]
+fn = data['Data']["value"][3][1]["value"][0][1]["nam"]["fn"]
+gn = data['Data']["value"][3][1]["value"][0][1]["nam"]["gn"]
+fnt = data['Data']["value"][3][1]["value"][0][1]["nam"]["fnt"]
+gnt = data['Data']["value"][3][1]["value"][0][1]["nam"]["gnt"]
+issuer = data['Data']["value"][3][1]["value"][0][1]["v"][0]["is"]
 
 
 

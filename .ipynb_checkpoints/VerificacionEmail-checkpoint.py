@@ -15,59 +15,65 @@ firebaseConfig = {
 
    firebase=pb.initialize_app(firebaseConfig)  
 ddbb=firebase.database()
-sing_in_up=firebase.auth()  # inicio de sesion
+sign_in_up=firebase.auth()  # inicio de sesion
 email=input("Introduzca su email")
 contrasenia = input("Introduzca su contraseña")
-user = sing_in_up.create_user_with_email_and_password(email, contrasenia) # da de alta el email y la contra
-Token = user.get("idToken") # genera el token del usuario
-sign_in_with_token = sing_in_up.send_email_verification(Token) # verificacion enviada al email
-Data = {
-  "dataType": "Map",
-  "value": [
-    [ 1, "ES" ],
-    [ 4, 1685780100 ],
-    [ 6, 1638619336 ],
-    [
-      -260,
-      {
-        "dataType": "Map",
-        "value": [
-          [
-            1,
-            {
-              "v": [
-                {
-                  "ci": "01ES21VD3451FE17930000632516#4",
-                  "co": "ES",
-                  "dn": 1,
-                  "dt": "2021-07-18",
-                  "is": "Ministerio de sanidad",
-                  "ma": "ORG-100031184",
-                  "mp": "EU/1/20/1507",
-                  "sd": 1,
-                  "tg": "840539006",
-                  "vp": "1119349007"
-                }
-              ],
-              "dob": "1977-05-05",
-              "nam": {
-                "fn": "SUCUZHANAY AREVALO",
-                "gn": "CHRISTIAN VLADIMIR",
-                "fnt": "SUCUZHANAY<AREVALO",
-                "gnt": "CHRISTIAN<VLADIMIR"
-              },
-              "ver": "1.3.0"
-            }
-          ]
-        ]
-      }
-    ]
-  ]
+try:
+    user = sign_in_up.create_user_with_email_and_password(email, contrasenia) # da de alta el email y la contra
+    Token = user.get("idToken") # genera el token del usuario
+    sign_in_with_token = sign_in_up.send_email_verification(Token) # verificacion enviada al email
+except:
+    try:
+        user = sign_in_up.sign_in_with_email_and_password(email, contrasenia)
+        Token = user.get("idToken") # genera el token del usuario
+    except:
+        print("Contraseña incorrecta")
+
+storage = firebase.storage()
+datadir = 'https://console.firebase.google.com/project/proyectofinalpcd-816d5/storage/proyectofinalpcd-816d5.appspot.com/files/~2Farchivos'
+storage.child('archivos/data').download(datadir,'data1.json')
+with open('data1.json') as file:
+    data = json.load(file)
+
+ci =data['Data']["value"][3][1]["value"][0][1]["v"][0]["ci"]
+pais=data['Data']["value"][3][1]["value"][0][1]["v"][0]["co"]
+num_dosis=data['Data']["value"][3][1]["value"][0][1]["v"][0]["dn"]
+date=data['Data']["value"][3][1]["value"][0][1]["v"][0]["dt"]
+ma = data['Data']["value"][3][1]["value"][0][1]["v"][0]["ma"]
+mp = data['Data']["value"][3][1]["value"][0][1]["v"][0]["mp"]
+sd = data['Data']["value"][3][1]["value"][0][1]["v"][0]["sd"]
+tg = data['Data']["value"][3][1]["value"][0][1]["v"][0]["tg"]
+vp = data['Data']["value"][3][1]["value"][0][1]["v"][0]["vp"]
+dob = data['Data']["value"][3][1]["value"][0][1]["dob"]
+fn = data['Data']["value"][3][1]["value"][0][1]["nam"]["fn"]
+gn = data['Data']["value"][3][1]["value"][0][1]["nam"]["gn"]
+fnt = data['Data']["value"][3][1]["value"][0][1]["nam"]["fnt"]
+gnt = data['Data']["value"][3][1]["value"][0][1]["nam"]["gnt"]
+issuer = data['Data']["value"][3][1]["value"][0][1]["v"][0]["is"]
+
+
+
+vacunas = pd.read_excel('Vacunas.xlsx')
+vacunas = vacunas.to_numpy()
+for i in range (len(vacunas)):
+    if(vacunas[i][2] == mp): # mp es el org
+        tipoVacuna = vacunas[i][3]
+        fabricante = vacunas[i][1]
+        VacunaAdministrada = vacunas[i][0]
+db = {
+            "Apellidos":gn,
+            "Nombre": fn,
+            "Datos de vacunacion":{
+                "Emisor certificado":issuer,
+                "Enfermedad":tg,
+                "Fecha de Vacunación":date,
+                "Vacunas suministradas":num_dosis,
+                "Dosis":sd,
+                "Pais":pais,
+                "Tipo de vacuna":tipoVacuna,
+                "Vacuna subministrada":VacunaAdministrada,
+                "Fabricante":fabricante
+    }
+
 }
-Id = (Data["value"][3][1]["value"][0][1]["v"][0]["ci"])
-pais=(Data["value"][3][1]["value"][0][1]["v"][0]["co"])
-num_dosis=(Data["value"][3][1]["value"][0][1]["v"][0]["dn"])
-date=(Data["value"][3][1]["value"][0][1]["v"][0]["dt"])
-ma = Data["value"][3][1]["value"][0][1]["v"][0]["ma"]
-mp = Data["value"][3][1]["value"][0][1]["v"][0]["mp"]
-sd = Data["value"][3][1]["value"][0][1]["v"][0]["sd"]
+ddbb.child("Usuarios").push(db1)
