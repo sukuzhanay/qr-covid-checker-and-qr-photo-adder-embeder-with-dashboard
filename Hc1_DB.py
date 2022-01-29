@@ -85,3 +85,37 @@ class BBDD():
         self.gn = self.data[-260][1]["nam"]["gn"]
         self.fnt = self.data[-260][1]["nam"]["fnt"]
         self.gnt = self.data[-260][1]["nam"]["gnt"]
+
+
+    def recuperar_datos_vacunas(self):
+        self.datadir = 'https://console.firebase.google.com/project/proyectofinalpcd-816d5/storage/proyectofinalpcd-816d5.appspot.com/files/~2Farchivos'
+        self.storage.child('archivos/vacunas.json').download(self.datadir,'vacunas.json')
+        self.storage.child('archivos/Fabricante.json').download(self.datadir,'Fabricante.json')
+        self.storage.child('archivos/profilaxis.json').download(self.datadir,'profilaxis.json')
+
+    def nombre_vacuna(self,mp):
+        with open('vacunas.json') as vacunas:
+            json_vacuna = json.load(vacunas)
+        for key in json_vacuna["valueSetValues"]:
+            if (key==mp):
+                vacuna = json_vacuna["valueSetValues"][key]['display']
+                print(vacuna)
+        return vacuna
+
+    def fabricante_vacuna(self,ma):
+        with open('Fabricante.json') as fabricante:
+            json_fabricante = json.load(fabricante)
+        for key in json_fabricante["valueSetValues"]:
+            if (key==ma):
+                fabricante = json_fabricante["valueSetValues"][key]['display']
+                print(fabricante)
+        return fabricante
+
+    def tipo_vacuna(self,vp):
+        with open('profilaxis.json') as profilaxis:
+            json_profilaxis = json.load(profilaxis)
+        for key in json_profilaxis["valueSetValues"]:
+            if (key==vp):
+                tipoVacuna = json_profilaxis["valueSetValues"][key]['display']
+                print(tipoVacuna)
+        return tipoVacuna
