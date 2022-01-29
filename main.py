@@ -35,8 +35,8 @@ def date_range(start, end):
 
 
 def tiempo_medio():
-    # De momento se le pide al usuario el identificador, sin embargo esto se tiene que autocompletar una vez inice sesion
-    # identificador = (input("Introduzca el id: "))
+    # De momento se le pide al usuario el identificador, sin embargo esto se tiene que autocompletar una vez inice
+    # sesion identificador = (input("Introduzca el id: "))
     identificador = "-MtxR0BuaUBfm_63F__G"
     all_users = dd_bb.child("Usuarios").get()
     # Se obtiene la fecha de vacunacion del usuario
@@ -218,10 +218,14 @@ def porcentaje_tipo_vacuna():
             hoverinfo="label+percent",
             textinfo="value"
         ))
-
-    fig.update_traces(hoverinfo='label+value', textinfo='percent', textfont_size=10)
+    fig.update_layout(
+        autosize=True,
+        width=500,
+        height=500
+    )
+    fig.update_traces(hoverinfo='label+value', textinfo='percent', textfont_size=25)
     st.header("Vacunas")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig)  # use_container_width=True
     # Grafica se pasa a Streamlit
 
 
@@ -256,15 +260,19 @@ def porcentaje_pauta_completa():
 
     # Use `hole` to create a donut-like pie chart
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=.3)])
-    fig.update_traces(hoverinfo='label+value', textinfo='percent+label', textfont_size=10,
+    fig.update_traces(hoverinfo='label+value', textinfo='percent+label',
                       marker=dict(colors=color_pauta, line=dict(color='#000000')))
+    fig.update_layout(
+        autosize=True,
+        width=500,
+        height=500
+    )
     fig.update_yaxes(automargin=True)
     st.header("Pauta de vacunación")
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig)  # use_container_width=True)
 
 
 def pauta_media():
-
     all_users = dd_bb.child("Usuarios").get()
     # contadores
     pauta_completa = 0
@@ -388,17 +396,17 @@ def vacunados_mes():
     st.altair_chart(chart)
 
 
-c = st.container()
-col1A, col2A = st.columns(2)
-with c:
-    with col1A:
-        pauta_media()
-col1, col2, col3 = st.columns(3)
-with col1:
-    porcentaje_tipo_vacuna()
-    porcentaje_pauta_completa()
-with col2:
-    tiempo_medio()
-    periodo_vacunacion()
-with col3:
-    vacunados_mes()
+# c = st.container()
+# col1A, col2A = st.columns(2)
+# with c:
+#     with col1A:
+#         pauta_media()
+# col1, col2, col3 = st.columns(3)
+# with col1:
+#     porcentaje_tipo_vacuna()
+#     porcentaje_pauta_completa()
+# with col2:
+#     tiempo_medio()
+#     periodo_vacunacion()
+# with col3:
+#     vacunados_mes()
