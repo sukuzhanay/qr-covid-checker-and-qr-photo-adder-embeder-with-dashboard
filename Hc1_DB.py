@@ -4,6 +4,7 @@ import base45 #pip install base45
 import cbor2 #pip install cbor2
 import zlib
 
+##############################################################################################################################################
 class BBDD():
     def __init__(self):
         self.firebaseConfig = {
@@ -19,30 +20,26 @@ class BBDD():
         self.firebase=pb.initialize_app(self.firebaseConfig)  
         self.ddbb=self.firebase.database()
         self.storage = self.firebase.storage()
-        hc1_code = "HC1:NCFOXN%TSMAHN-HXOCLGML-P8ZVHGJ-AH:TA1ROT$SD PLIS2VF%GKG5/E71F/8XG3M9JUPY0BZW4V/AY73CNN7J3J1H:43DAJBRNFG3CNBRI3CHG7KM0KLGJJ5C9-JE%7A6IA$36IASD9YHILIIX2MELNKHKYIARGEX3E1.BLEE$JDM:C5H8QNL1FE1.B7I9 H9/.DV2MGDIR0MTDQVOCIL8-TIKR3T3+7A.N88J4R$FBMA2 U6QS25P0QIRR97I2HOAAP9UY9VYCDEBD0HX2JR$4O1K8KES/F-1JZ.KELNZEG%12/9TL4T.B9 UP9C1-ZEN.HQCEFREGUA P1NV1K/U31AP8Q0OE+51QN1RNU.*U-51JFEKQU2:UWH9 UPRB8LTD1$AZWJYQ2%VLUHGG%5TW5A 6+O67N6F7E46WW%9Z4EM2PKAWMO9T.3NB1E7R0%K06N0%8/YM.QPMSD9IM28K/NS /K%TTVP5TPTT$CKTMS MKCHK+RO2W58ECQ568HX%A+YP8MAKL62QG"
-        self.decode(hc1_code)
-        #self.autenticacion()
         
-        #########################
-
-    #AQUI ENTRAN LAS FUNCIONES DE QR A HC1 Y DEBE CONECTAR CON la funcion decode y debe recibir el parametro del HC1
-
+    
     def decode(self,hc1_decodificado):
         b45data = hc1_decodificado.replace("HC1:", "")
         zlibdata = base45.b45decode(b45data)
         cbordata = zlib.decompress(zlibdata)
         decoded = cbor2.loads(cbordata)
         self.data = cbor2.loads(decoded.value[2])
+        
         self.save_storage()
-        self.recuperarDatos()
-
-    def getfullname(self):
+        self.guardarDatos()
+        
+        
+    def get_fullname(self):
         name = self.data[-260][1]["nam"]["gn"]
-        name = name.replace(" ", "")
+        name = name.replace(" ", "_")
         surname = self.data[-260][1]["nam"]["fn"]
-        surname = surname.replace(" ", "")
-        return name + "" + surname
-
+        surname = surname.replace(" ", "_")
+        return name + "_" + surname
+    
     def save_storage(self):
         json_name = self.get_fullname()+".json"
         print(json_name)
@@ -50,9 +47,13 @@ class BBDD():
             self.jsonData = json.dump(self.data, outfile)
         outfile.close()
         patata = "sample.json"
-        self.storage.child("archivos/jk/" + json_name).put(patata)
+        self.storage.child("archivos/" + json_name).put(patata)
         print(len(json_name))
+      
 
+    
+    
+    ##############################################################################################################################################
     def autenticacion(self):
         sign_in_up = self.firebase.auth()  # inicio de sesion
         email=input("Introduzca su email")
@@ -67,8 +68,8 @@ class BBDD():
                 Token = user.get("idToken") # genera el token del usuario
             except:
                 print("Contraseña incorrecta")
-                
-                
+    
+    ##############################################################################################################################################
     def recuperarDatos(self):
         self.ci = self.data[-260][1]["v"][0]["ci"]
         self.pais = self.data[-260][1]["v"][0]["co"]
@@ -85,14 +86,14 @@ class BBDD():
         self.gn = self.data[-260][1]["nam"]["gn"]
         self.fnt = self.data[-260][1]["nam"]["fnt"]
         self.gnt = self.data[-260][1]["nam"]["gnt"]
-
-
+        
+    ##############################################################################################################################################
     def recuperar_datos_vacunas(self):
         self.datadir = 'https://console.firebase.google.com/project/proyectofinalpcd-816d5/storage/proyectofinalpcd-816d5.appspot.com/files/~2Farchivos'
         self.storage.child('archivos/vacunas.json').download(self.datadir,'vacunas.json')
         self.storage.child('archivos/Fabricante.json').download(self.datadir,'Fabricante.json')
         self.storage.child('archivos/profilaxis.json').download(self.datadir,'profilaxis.json')
-
+        
     def nombre_vacuna(self,mp):
         with open('vacunas.json') as vacunas:
             json_vacuna = json.load(vacunas)
@@ -101,7 +102,7 @@ class BBDD():
                 vacuna = json_vacuna["valueSetValues"][key]['display']
                 print(vacuna)
         return vacuna
-
+    
     def fabricante_vacuna(self,ma):
         with open('Fabricante.json') as fabricante:
             json_fabricante = json.load(fabricante)
@@ -110,7 +111,7 @@ class BBDD():
                 fabricante = json_fabricante["valueSetValues"][key]['display']
                 print(fabricante)
         return fabricante
-
+    
     def tipo_vacuna(self,vp):
         with open('profilaxis.json') as profilaxis:
             json_profilaxis = json.load(profilaxis)
@@ -119,9 +120,13 @@ class BBDD():
                 tipoVacuna = json_profilaxis["valueSetValues"][key]['display']
                 print(tipoVacuna)
         return tipoVacuna
+    
+    
+    
+    ##############################################################################################################################################
+    
     def guardarDatos(self):
-        self.autenticacion()
-        self.data()
+        self.recuperarDatos()#self.issuer
         self.recuperar_datos_vacunas()
         VacunaAdministrada = self.nombre_vacuna(self.mp)
         fabricante = self.fabricante_vacuna(self.ma)
@@ -142,13 +147,21 @@ class BBDD():
                 "Fabricante":fabricante
             }
         }
+        
         all_users = self.ddbb.child("Usuarios").get()
+        verif = False
         for users in all_users.each():
             if 'ID_vacunacion' in str(users.val()):
                 vac = self.ddbb.child("Usuarios/" + str(users.key()) + "/Datos_de_vacunacion/ID_vacunacion").get()
                 if (vac.val()==self.ci):
+                    verif = True
+                    print("Entro")
                     self.ddbb.child("Usuarios/" + str(users.key())).update(db)
-                else:
-                    self.ddbb.child("Usuarios").push(db)
-                break
+        if (verif == False):
+            self.ddbb.child("Usuarios").push(db)
+                    
+    
+    ##############################################################################################################################################
 s = BBDD()
+hc1_code = "HC1:NCFOXN%TSMAHN-HPQCXAV03C1KK%%V:D4%X4-36QHN-TMOV4+HH8UO7/IJ8W1-NNO4*J8OX4W$C2VLWLIVO5ON1: BI$H1VOZ0QD:RHQ1NYJRT1 V1.GO$HQ0IQ-88IV4/974CL395J4I-B5ET42HPPEPHCRBK8MDPAC5LGN1:6G16PCNQ+MBM6P846$AU47N/5QV4IV4:/6N9R%EPL8RU9DNKM*IK5C9A.D90I/EL6KKYHIF.70A90%KLR2A KZ*U0I1-I0*OC6H0/VMNPM Q5TM8*N9 I2.8Q4A7E:7LYPFTQ7XBEEOPCRQQ5L/5R3FMIAC/BG9MS7K0RDHJ8LUKLTHVPC9JAP.B*EM95E:UL0NG-QD78KS7K15G4JB381.$IYTABLE/*BCVA0V1DDB$JDVPLZ2KD0KJWGN 9X$PO7OUNUC0QEQL4DJIPT3SQ%L3K/AWOH.ZLOWVN240MN./UN$5PPE9JH:+3N7WQALM4DT7N +B7HFLHAS7OXZUUBK/89:05+VT2OJPYF"
+s.decode(hc1_code)
