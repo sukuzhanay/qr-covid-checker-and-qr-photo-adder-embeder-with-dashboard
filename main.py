@@ -36,8 +36,7 @@ def date_range(start, end):
 
 def tiempo_medio():
     # De momento se le pide al usuario el identificador, sin embargo esto se tiene que autocompletar una vez inice
-    # sesion identificador = (input("Introduzca el id: "))
-    identificador = "-MtxR0BuaUBfm_63F__G"
+    identificador = "-MuMEml8UwWJgDtvoRYt"
     all_users = dd_bb.child("Usuarios").get()
     # Se obtiene la fecha de vacunacion del usuario
     ult_vacuna = dd_bb.child("Usuarios/" + identificador + "/Datos_de_vacunacion/Fecha_de_Vacunación").get()
@@ -194,7 +193,7 @@ def porcentaje_tipo_vacuna():
     all_users = dd_bb.child("Usuarios").get()
 
     for users in all_users.each():
-        if "Spikevax" in str(users.val()):
+        if "Moderna" in str(users.val()):
             spikevax += 1
         elif "Comirnaty" in str(users.val()):
             comirnaty += 1
@@ -203,11 +202,11 @@ def porcentaje_tipo_vacuna():
         else:
             janssen += 1
 
-    print("Spikevax " + str(spikevax) + "Comirnaty " + str(comirnaty) + "Covishield " + str(
+    print("Moderna " + str(spikevax) + "Comirnaty " + str(comirnaty) + "Covishield " + str(
         covishield) + "Janssen " + str(
         janssen))
 
-    vacunas = ["Spikevax", "Comirnaty", "Covishield", "Janssen"]
+    vacunas = ["Moderna", "Comirnaty", "Covishield", "Janssen"]
     valores = [spikevax, comirnaty, covishield, janssen]
 
     # ====== PIE CHART - TIPO VACUNAS =========
@@ -218,11 +217,11 @@ def porcentaje_tipo_vacuna():
             hoverinfo="label+percent",
             textinfo="value"
         ))
-    fig.update_layout(
-        autosize=True,
-        width=500,
-        height=500
-    )
+    # fig.update_layout(
+    #     autosize=True)
+    #         width=500,
+    #         height=500
+    #     )
     fig.update_traces(hoverinfo='label+value', textinfo='percent', textfont_size=25)
     st.header("Vacunas")
     st.plotly_chart(fig)  # use_container_width=True
@@ -262,11 +261,11 @@ def porcentaje_pauta_completa():
     fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=.3)])
     fig.update_traces(hoverinfo='label+value', textinfo='percent+label',
                       marker=dict(colors=color_pauta, line=dict(color='#000000')))
-    fig.update_layout(
-        autosize=True,
-        width=500,
-        height=500
-    )
+    # fig.update_layout(
+    #     autosize=True)
+    #     width=500,
+    #     height=500
+    # )
     fig.update_yaxes(automargin=True)
     st.header("Pauta de vacunación")
     st.plotly_chart(fig)  # use_container_width=True)
@@ -310,12 +309,24 @@ def pauta_media():
         theta=alt.Theta(field="value", type="quantitative"),
         color=alt.Color(field="category", type="nominal"),
     )
-
+    z = [pauta_completa, pauta_incompleta]
+    colors = 'crimson'
     # segundo diagrama que presenta el n_alumnos de pauta completa, pauta incompleta y total de alumnos vacunados
     fig = go.Figure(go.Bar(
-        x=[pauta_completa, pauta_incompleta],
+        x=z,
         y=['n_alumnos pauta completa', 'n_alumnos pauta incompleta'],
+        text=z,
+        marker_color='rgb(255, 40, 0)',
+        textposition='auto',
         orientation='h'))
+
+
+    fig.update_layout(
+        xaxis=dict(
+            title='Numero Total de Registrados',
+        )
+    )
+
 
     st.plotly_chart(fig)
 
@@ -396,17 +407,17 @@ def vacunados_mes():
     st.altair_chart(chart)
 
 
-# c = st.container()
+c = st.container()
 # col1A, col2A = st.columns(2)
-# with c:
-#     with col1A:
-#         pauta_media()
-# col1, col2, col3 = st.columns(3)
+with c:
+    pauta_media()
+    porcentaje_tipo_vacuna()
+    porcentaje_pauta_completa()
+
+col2, col3 = st.columns(2)
 # with col1:
-#     porcentaje_tipo_vacuna()
-#     porcentaje_pauta_completa()
-# with col2:
-#     tiempo_medio()
-#     periodo_vacunacion()
-# with col3:
-#     vacunados_mes()
+with col2:
+    tiempo_medio()
+with col3:
+    periodo_vacunacion()
+    vacunados_mes()
