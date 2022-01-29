@@ -43,6 +43,16 @@ class BBDD():
         surname = surname.replace(" ", "")
         return name + "" + surname
 
+    def save_storage(self):
+        json_name = self.get_fullname()+".json"
+        print(json_name)
+        with open("sample.json", "w") as outfile:
+            self.jsonData = json.dump(self.data, outfile)
+        outfile.close()
+        patata = "sample.json"
+        self.storage.child("archivos/jk/" + json_name).put(patata)
+        print(len(json_name))
+
     def autenticacion(self):
         sign_in_up = self.firebase.auth()  # inicio de sesion
         email=input("Introduzca su email")
