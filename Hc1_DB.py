@@ -119,3 +119,36 @@ class BBDD():
                 tipoVacuna = json_profilaxis["valueSetValues"][key]['display']
                 print(tipoVacuna)
         return tipoVacuna
+    def guardarDatos(self):
+        self.autenticacion()
+        self.data()
+        self.recuperar_datos_vacunas()
+        VacunaAdministrada = self.nombre_vacuna(self.mp)
+        fabricante = self.fabricante_vacuna(self.ma)
+        tipoVacuna = self.tipo_vacuna(self.vp)
+        db = {
+            "Apellidos":self.fn,
+            "Nombre":self.gn,
+            "Datos_de_vacunacion":{
+                "ID_vacunacion":self.ci,
+                "Emisor_certificado":self.issuer,
+                "Enfermedad":self.tg,
+                "Fecha_de_Vacunación":self.date,
+                "Vacunas_suministradas":self.num_dosis,
+                "Dosis":self.sd,
+                "Pais":self.pais,
+                "Tipo_de_vacuna":tipoVacuna,
+                "Vacuna_subministrada":VacunaAdministrada,
+                "Fabricante":fabricante
+            }
+        }
+        all_users = self.ddbb.child("Usuarios").get()
+        for users in all_users.each():
+            if 'ID_vacunacion' in str(users.val()):
+                vac = self.ddbb.child("Usuarios/" + str(users.key()) + "/Datos_de_vacunacion/ID_vacunacion").get()
+                if (vac.val()==self.ci):
+                    self.ddbb.child("Usuarios/" + str(users.key())).update(db)
+                else:
+                    self.ddbb.child("Usuarios").push(db)
+                break
+s = BBDD()
