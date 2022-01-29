@@ -20,8 +20,28 @@ class BBDD():
         self.ddbb=self.firebase.database()
         self.storage = self.firebase.storage()
         hc1_code = "HC1:NCFOXN%TSMAHN-HXOCLGML-P8ZVHGJ-AH:TA1ROT$SD PLIS2VF%GKG5/E71F/8XG3M9JUPY0BZW4V/AY73CNN7J3J1H:43DAJBRNFG3CNBRI3CHG7KM0KLGJJ5C9-JE%7A6IA$36IASD9YHILIIX2MELNKHKYIARGEX3E1.BLEE$JDM:C5H8QNL1FE1.B7I9 H9/.DV2MGDIR0MTDQVOCIL8-TIKR3T3+7A.N88J4R$FBMA2 U6QS25P0QIRR97I2HOAAP9UY9VYCDEBD0HX2JR$4O1K8KES/F-1JZ.KELNZEG%12/9TL4T.B9 UP9C1-ZEN.HQCEFREGUA P1NV1K/U31AP8Q0OE+51QN1RNU.*U-51JFEKQU2:UWH9 UPRB8LTD1$AZWJYQ2%VLUHGG%5TW5A 6+O67N6F7E46WW%9Z4EM2PKAWMO9T.3NB1E7R0%K06N0%8/YM.QPMSD9IM28K/NS /K%TTVP5TPTT$CKTMS MKCHK+RO2W58ECQ568HX%A+YP8MAKL62QG"
+        self.decode(hc1_code)
+        #self.autenticacion()
+        
+        #########################
 
+    #AQUI ENTRAN LAS FUNCIONES DE QR A HC1 Y DEBE CONECTAR CON la funcion decode y debe recibir el parametro del HC1
 
+    def decode(self,hc1_decodificado):
+        b45data = hc1_decodificado.replace("HC1:", "")
+        zlibdata = base45.b45decode(b45data)
+        cbordata = zlib.decompress(zlibdata)
+        decoded = cbor2.loads(cbordata)
+        self.data = cbor2.loads(decoded.value[2])
+        self.save_storage()
+        self.recuperarDatos()
+
+    def getfullname(self):
+        name = self.data[-260][1]["nam"]["gn"]
+        name = name.replace(" ", "")
+        surname = self.data[-260][1]["nam"]["fn"]
+        surname = surname.replace(" ", "")
+        return name + "" + surname
 
     def autenticacion(self):
         sign_in_up = self.firebase.auth()  # inicio de sesion
