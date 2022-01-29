@@ -407,17 +407,15 @@ def vacunados_mes():
     st.altair_chart(chart)
 
 
-c = st.container()
-# col1A, col2A = st.columns(2)
-with c:
-    pauta_media()
-    porcentaje_tipo_vacuna()
-    porcentaje_pauta_completa()
-
-col2, col3 = st.columns(2)
-# with col1:
-with col2:
-    tiempo_medio()
-with col3:
-    periodo_vacunacion()
-    vacunados_mes()
+#c = st.container()
+#with c:
+#    pauta_media()
+#    porcentaje_tipo_vacuna()
+#    porcentaje_pauta_completa()
+#
+# col2, col3 = st.columns(2)
+# with col2:
+#     tiempo_medio()
+# with col3:
+#     periodo_vacunacion()
+#     vacunados_mes()

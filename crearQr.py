@@ -29,7 +29,7 @@ root = Tk()
 
 def make_qrcode(data, save_path='./qrcode.png', border=5, image_size=(300, 300), icon_path='', factor=3.5):
     # Generar cuerpo de código QR
-    qr = qrcode.QRCode(version='fit', error_correction=qrcode.constants.ERROR_CORRECT_H, border=border)
+    qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_H, border=border)
     qr.add_data(data)  # Escribir datos en código QR
     qr.make()
     qrcode_image = qr.make_image().resize(image_size, Image.ANTIALIAS).convert('RGBA')
@@ -70,8 +70,7 @@ def pedirQrCamara():
     return a
 
 
-def pedirQrGuardado():
-    fotoPersona = filedialog.askopenfilename()
+def pedirQrGuardado(fotoPersona=''):
     img = cv2.imread(fotoPersona)
     a = ""
     for barcode in decode(img):
@@ -112,6 +111,3 @@ def opcionQR(a=0):
 def aniadirEmbebidoBBDD(usuario="alguno"):
     storage.child("QrsEmbebidos/" + usuario + "/QrEmbebido.png").put("QRCovid.png")
 
-#b = pedirQrGuardado()
-#a = pedirFoto()
-#make_qrcode(data=b, save_path='./QRCovid.png', icon_path=a)
