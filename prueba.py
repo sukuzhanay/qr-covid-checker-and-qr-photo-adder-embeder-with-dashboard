@@ -19,7 +19,6 @@ from hc1_decode import BBDD
 from PIL import Image
 import requests
 
-
 root = Tk()
 
 # Datos de Firebase
@@ -98,7 +97,7 @@ if menu == 'Entrar':
 
                     col2, col3 = st.columns(2)
                     with col2:
-                        main.tiempo_medio()
+                        main.tiempo_medio(user_check['localId'])
                     with col3:
                         main.periodo_vacunacion()
                         main.vacunados_mes()
@@ -118,34 +117,40 @@ if menu == 'Entrar':
                                 # Pedir Qr
                                 Qr_path = filedialog.askopenfilename(master=root)
                                 Leido_Qr = crearQr.pedirQrGuardado(Qr_path)
-                                # Pedir foto
-                                path_Foto = filedialog.askopenfilename(master=root)
-                                # crear Qr
-                                crearQr.make_qrcode(data=Leido_Qr, save_path='./QRCovid.png', icon_path=path_Foto)
-                                storage.child("QrsEmbebidos/" + email + "/QrEmbebido.png").put("QRCovid.png")
-                                st.success("Guardado correctamente")
+                                if (Leido_Qr[0] == 'H') and (Leido_Qr[1] == 'C') and (Leido_Qr[2] == '1'):
+                                    # Pedir foto
+                                    path_Foto = filedialog.askopenfilename(master=root)
+                                    # crear Qr
+                                    crearQr.make_qrcode(data=Leido_Qr, save_path='./QRCovid.png', icon_path=path_Foto)
+                                    storage.child("QrsEmbebidos/" + email + "/QrEmbebido.png").put("QRCovid.png")
+                                    st.success("Guardado correctamente")
+                                    st.info(user_check['localId'])
+                                    base = BBDD().decode(Leido_Qr, user_check['localId'])
 
-                                base = BBDD().decode(Leido_Qr)
-
-
+                                else:
+                                    st.write("El QR ingresado NO es valido, porfavor intente con uno válido.")
                             except:
                                 st.error("Error")
 
                         if tomarFoto:
                             hc1 = crearQr.pedirQrCamara()
-                            camara2.hacerFotoCara()
-                            crearQr.make_qrcode(data=hc1, save_path='./QRCovid.png', icon_path='./fotoCara.png')
-                            storage.child("QrsEmbebidos/" + email + "/QrEmbebido.png").put("QRCovid.png")
-                            st.success("Guardado correctamente")
+                            if hc1[0] == 'H' and hc1[1] == 'C' and hc1[2] == '1':
+                                camara2.hacerFotoCara()
+                                crearQr.make_qrcode(data=hc1, save_path='./QRCovid.png', icon_path='./fotoCara.png')
+                                storage.child("QrsEmbebidos/" + email + "/QrEmbebido.png").put("QRCovid.png")
+                                st.success("Guardado correctamente")
+                                base = BBDD().decode(hc1)
+                            else:
+                                st.write("El QR ingresado NO es valido, porfavor intente con uno válido.")
 
                         try:
-                            imageUrl = storage.child('QrsEmbebidos/'+email+'/QrEmbebido.png').get_url(user_check['idToken'])
+                            imageUrl = storage.child('QrsEmbebidos/' + email + '/QrEmbebido.png').get_url(
+                                user_check['idToken'])
                             im = Image.open(requests.get(imageUrl, stream=True).raw)
                             st.write("Qr embebido:")
                             st.image(imageUrl)
                         except:
                             st.error("No HA Embebido su QR")
-
 
                     if qr == "2":
                         st.info("eleccion 2")

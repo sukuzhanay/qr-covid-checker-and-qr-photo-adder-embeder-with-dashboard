@@ -34,12 +34,11 @@ def date_range(start, end):
     return delta.days
 
 
-def tiempo_medio():
+def tiempo_medio(localId):
     # De momento se le pide al usuario el identificador, sin embargo esto se tiene que autocompletar una vez inice
-    identificador = "-MuMEml8UwWJgDtvoRYt"
     all_users = dd_bb.child("Usuarios").get()
     # Se obtiene la fecha de vacunacion del usuario
-    ult_vacuna = dd_bb.child("Usuarios/" + identificador + "/Datos_de_vacunacion/Fecha_de_Vacunación").get()
+    ult_vacuna = dd_bb.child("Usuarios/" + localId + "/Datos_de_vacunacion/Fecha_de_Vacunación").get()
 
     x = []
     # Se realiza un split de la fecha recuperada de la base de datos

@@ -22,7 +22,7 @@ class BBDD():
         self.ddbb = self.firebase.database()
         self.storage = self.firebase.storage()
 
-    def decode(self, hc1_decodificado):
+    def decode(self, hc1_decodificado, localId):
         b45data = hc1_decodificado.replace("HC1:", "")
         zlibdata = base45.b45decode(b45data)
         cbordata = zlib.decompress(zlibdata)
@@ -30,7 +30,7 @@ class BBDD():
         self.data = cbor2.loads(decoded.value[2])
 
         self.save_storage()
-        self.guardarDatos()
+        self.guardarDatos(localId)
 
     def get_fullname(self):
         name = self.data[-260][1]["nam"]["gn"]
@@ -114,7 +114,7 @@ class BBDD():
 
     ##############################################################################################################################################
 
-    def guardarDatos(self):
+    def guardarDatos(self, localId):
         self.recuperarDatos()  # self.issuer
         self.recuperar_datos_vacunas()
         VacunaAdministrada = self.nombre_vacuna(self.mp)
@@ -146,6 +146,6 @@ class BBDD():
                     verif = True
                     self.ddbb.child("Usuarios/" + str(users.key())).update(db)
         if (verif == False):
-            self.ddbb.child("Usuarios").push(db)
+            self.ddbb.child("Usuarios/"+localId).set(db)
 
     ##############################################################################################################################################
