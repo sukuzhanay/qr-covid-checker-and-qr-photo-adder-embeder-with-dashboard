@@ -1,29 +1,57 @@
-<<<<<<< HEAD
-# _**Sin terminar**_
-## Datos del dashboard
+# _**QrCovid**_
+## Qr covid _checker & watermark_ photo with dashboard
+_**QrCovid**_ comprueba si el qr del pasaporte covid es autentico, ademas crea un qr con la foto del titular evitando sacar el DNI y permite conocer, entre otros: el estado de vacunación, tiempo medio desde la ultima vacunación, vacunas mas usadas.
 
-En esta rama se encuentran los datos procesados y mostrados a traves de streamlit, del porcentaje de vacunas y (*Nuevo*) del porcentaje de la pauta de vacunacion.
+![Design](https://github.com/sukuzhanay/qr-covid-checker-and-qr-photo-adder-embeder-with-dashboard/blob/main/qrcovid.drawio.png)
 
-_La base de datos utilizada es de prueba creada por nuestro grupo_
+[![Run on Repl.it](https://repl.it/badge/github/sukuzhanay/chat_using_sockets)](https://repl.it/github/sukuzhanay/chat_using_sockets)
 
-El siguiente main.py puede servir como referencia a los integrantes del grupo 1 para realizar el resto de actividades.
+### Proyecto final de la asignatura de Programación Concurrente y Distribuida .  
+Prof.: **Christian Vladimir Sucuzhanay Arevalo** 
 
-El archivo .json sirve para entender la estructura de la base de datos creada por nuestro grupo como prueba.
+Repositorio que alberga el proyecto de programación concurrente y distribuida, contará con las funcionalidades siguientes:
+![Logo of the project](https://github.com/sukuzhanay/qr-covid-checker-and-qr-photo-adder-embeder-with-dashboard/blob/main/uem%20logo.jpeg)
 
-El .png es el resultado por streamlit del codigo, cuando los datos se sacan de nuestra base de datos.
+
+1. **Comprueba** que el **Qr** de un pasaporte Covid sea válido
+2. **Genera** un nuevo **Qr** con la **foto** del titular, evitando tener que sacar **DNI** ( matricula de honor )
+3. **Dashboard** interactivo del estado del vacunación de la Universidad Europea
+
+### Autores
+1. **Christian Vladimir Sucuzhanay Arevalo** ( Profesor )
+2. **Carlos Moreno** ( jefe, grupo 1 ) **_Datos del Dashboard_**
+3. **Camilo Quiroz** (jefe, grupo 2) **_Pathcheck/ nodejs_**
+3. **Jolie Alain** ( jefe, grupo 3 ) **QrPhoto / embeber / UI / Auth**
+4. **Maria Rodriguez** ( jefe, grupo 4 )**DDBB design / Guardado y sanitizar DDBB / Check already user**
+5. **Santiago Barreiro** ( jefe grupo 5 ) **HC1 to endpoint**
+
+### Estructura y tecnologías usadas en _**QrCovid**_
+
+**FrontEnd**
+
+1. Streamlit
+2. Python
+3. Dashboard Plotly 
+4. JavaScript
+5. Github
+6. ![](www.google.es "Figma")
+
+**Backend**
+
+1. Firebase
+2. Base de datos NoSql ( realtime database )
+3. Storage ( almacenamiento de Qrs)
+4. Autentificacion (auth)
+5. Dashboard Plotly 
+6. Python
+7. Javascript
+8. Github
+9. Figma
+
+**API`s**
+
+[Pathcheck](https://github.pathcheck.org/verify.html#processed  "Verifica tu Qr")
+
+
 
 ![Logo of the project](https://github.com/sukuzhanay/qr-covid-checker-and-qr-photo-adder-embeder-with-dashboard/blob/main/uem%20logo.jpeg)
-=======
-# Tiempo medio desde la última vacunación
-
-Se calcula el tiempo medio aproximado desde la última vacunación de un usuario, además muestra una tabla con el respectivo tiempo transcurrido.
-
-https://github.com/sukuzhanay/qr-covid-checker-and-qr-photo-adder-embeder-with-dashboard/blob/941aea862c11e0ed1676776a509278c420cc6fcb/tiempo_medio.png
-
-# Periodo de vacunación
-
-Se calcula el tiempo medio aproximado desde la última vacunación de todos los usuarios y muestra un gráfico con el respectivo tiempo transcurrido.
-
-https://github.com/sukuzhanay/qr-covid-checker-and-qr-photo-adder-embeder-with-dashboard/blob/941aea862c11e0ed1676776a509278c420cc6fcb/periodo_vacunacion.png
->>>>>>> grupo1_lian
-
