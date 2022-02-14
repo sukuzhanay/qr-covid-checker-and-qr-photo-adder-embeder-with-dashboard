@@ -55,3 +55,19 @@ Repositorio que alberga el proyecto de programación concurrente y distribuida, 
 
 
 ![Logo of the project](https://github.com/sukuzhanay/qr-covid-checker-and-qr-photo-adder-embeder-with-dashboard/blob/main/uem%20logo.jpeg)
+
+
+###Como hacer funcionar el programa
+
+Para hacer funcionar el programa solo es necesario los siguientes 5 archivos:
+·prueba.py
+·main.py
+·crearQr.py
+·camara2.py
+·hc1_decode.py
+
+Los demas archivos pueden crear conflicto en el funcionamiento del programa pero sirven para mostrar el desarrollo llevado a cabo para lograr su creacion.
+
+Una vez aislados los siguientes archivos, se ejecuta el archivo **prueba.py**. Al utilizarse la libreria streamlit, para ejecutar el archivo sera necesario por terminal escribir lo siguiente: **streamlit run [ PATH de prueba.py ]**. Una vez hecho esto, al abrirse el navegador se mostrara en un sidebar el login. En caso de no estar registrado, seleccione la opcion de registrarse y si ya esta registrado, seleccione la opcion de login y una vez introduzca los datos correctos podra visualizar el dashboard automaticamente.
+
+**IMPORTANTE:** Es necesario tener descargadas todas las librerias necesarias para los 5 archivos en el interpretador de Python que vaya a utilizar. Consultar _imports_ de los ficheros.
