@@ -1,14 +1,27 @@
 # QR Covid Platform
-## Distributed Health Credential Verification & Analytics System
 
-### QR Certificate Processing, Photo Embedding & Vaccination Dashboard
+### Distributed Health Credential Verification & Analytics System
 
-**Academic Engineering Project · Technical & Academic Direction · Distributed Systems / Cloud / Data**
+**QR Processing · HC1 Decoding · Photo Embedding · Firebase · Analytics**
+
+**Academic Engineering Project · Technical & Academic Direction**
 
 ![Academic project](https://img.shields.io/badge/Project-Academic-08111f?style=flat-square)
 ![Python](https://img.shields.io/badge/Python-Streamlit-08111f?style=flat-square&logo=python&logoColor=white)
 ![Firebase](https://img.shields.io/badge/Cloud-Firebase-f59e0b?style=flat-square&logo=firebase&logoColor=white)
 ![Dashboard](https://img.shields.io/badge/Data-Dashboard-08111f?style=flat-square&logo=plotly&logoColor=white)
+
+### Engineering Highlights
+
+| 🧩 Multi-Team Engineering | ☁️ Cloud & Data | 🎓 Technical Direction |
+|---|---|---|
+| QR processing, HC1 decoding, photo embedding and analytics integrated into one prototype. | Firebase Authentication, Realtime Database, Storage and analytical dashboards. | Collaborative university engineering project developed under academic and technical direction. |
+
+<p align="center">
+  <img src="assets/qrcovid-workflow.png"
+       alt="QR Covid Platform system workflow"
+       width="820">
+</p>
 
 A collaborative final project for **Programación Concurrente y Distribuida (Concurrent and Distributed Programming)** at **Universidad Europea**. Student teams connected QR processing, photo embedding, cloud persistence and analytical views in a Python application under the academic and technical direction of **Christian Vladimir Sucuzhanay Arévalo**.
 
@@ -54,14 +67,7 @@ Image / camera ──► QR reading · crearQr.py
 
 This flow follows the calls in [`prueba.py`](prueba.py), [`crearQr.py`](crearQr.py), [`hc1_decode.py`](hc1_decode.py) and [`main.py`](main.py). The camera branch has integration gaps described below.
 
-<details>
-<summary>Original academic workflow illustration</summary>
 
-![Original QrCovid workflow mockup: certificate, login and photo-embedded QR](assets/qrcovid-workflow.png)
-
-The original `qrcovid.drawio.png` is preserved unchanged in [`assets/qrcovid-workflow.png`](assets/qrcovid-workflow.png). It is a design mockup; its validation symbols and mobile screens are not evidence of verified certificate authenticity or a native mobile application.
-
-</details>
 
 ## Core Capabilities
 
