@@ -182,10 +182,12 @@ Explore [eBurnout](https://github.com/sukuzhanay/eburnout) for related historica
 
 Data & AI Solutions Architect | AWS Data Architecture | Generative AI & Amazon Bedrock | Big Data | Former University Lecturer
 
-[![Website](https://img.shields.io/badge/Website-Entity_Home-08111f?style=flat-square)](https://christiansucuzhanay.com/)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-08111f?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sucuzhanay)
-[![AWS Builder](https://img.shields.io/badge/AWS-Builder-f59e0b?style=flat-square&logo=amazonwebservices&logoColor=white)](https://builder.aws.com/community/@sukuzhanay)
-[![GitHub](https://img.shields.io/badge/GitHub-08111f?style=flat-square&logo=github&logoColor=white)](https://github.com/sukuzhanay)
+<p>
+  <a href="https://christiansucuzhanay.com/" title="Website"><img src="assets/icons/website.svg" alt="Website" width="28" height="28"></a>&nbsp;&nbsp;
+  <a href="https://www.linkedin.com/in/sucuzhanay" title="LinkedIn"><img src="assets/icons/linkedin.svg" alt="LinkedIn" width="28" height="28"></a>&nbsp;&nbsp;
+  <a href="https://builder.aws.com/community/@sukuzhanay" title="AWS Builder"><img src="assets/icons/aws.svg" alt="AWS Builder" width="28" height="28"></a>&nbsp;&nbsp;
+  <a href="https://github.com/sukuzhanay" title="GitHub"><img src="assets/icons/github.svg" alt="GitHub" width="28" height="28"></a>&nbsp;&nbsp;
+</p>
 
 [Technical Portfolio](https://sukuzhanay.github.io/)
 
