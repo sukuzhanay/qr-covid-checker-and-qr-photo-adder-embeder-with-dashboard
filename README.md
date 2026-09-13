@@ -1,4 +1,5 @@
-# QrCovid
+# QR Covid Platform
+## Distributed Health Credential Verification & Analytics System
 
 ### QR Certificate Processing, Photo Embedding & Vaccination Dashboard
 
